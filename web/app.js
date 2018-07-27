@@ -72,28 +72,36 @@ var app = function () {
 
     var getFieldValue = function (data, meta) {
 
-        // in case the field is no object but just a value
-        if (typeof meta == 'string')
-            return meta;
+        var val = (function () {
+            // in case the field is no object but just a value
+            if (typeof meta == 'string')
+                return meta;
 
-        var field = meta.field,
-            text = meta.text,
-            encode = meta.encode;
+            var field = meta.field,
+                text = meta.text,
+                encode = meta.encode;
 
-        if (text) {
-            return text;
-        }
+            if (text) {
+                return text;
+            }
 
-        var fieldArray = (field || '').split('.');
-        var element = data;
-        $.each(fieldArray, function (i, field) {
-            element = element[field];
-        });
-        if ('ts' == field)
-            return new Date(element).toLocaleString();
-        if (encode && encode in window)
-            element = window[encode](element);
-        return element;
+            var fieldArray = (field || '').split('.');
+            var element = data;
+            $.each(fieldArray, function (i, field) {
+                element = element[field];
+            });
+            if ('ts' == field)
+                return new Date(element).toLocaleString();
+            if (encode && encode in window)
+                element = window[encode](element);
+            return element;
+        })();
+
+        if (typeof val === 'string')
+            return val.replace(/\n/g, '<br />');
+        
+        return val;
+        
     };
 
 
@@ -280,7 +288,18 @@ var app = function () {
                         target: '_blank'
                     }
 
-                }, {}]
+                }, {
+                    name: 'Source',
+                    field: 'config.host.name',
+                    link: {
+                        uri: [{
+                            field: 'config.host.name'
+                        }, '/sys_update_set.do?sys_id=', {
+                            field: 'updateSetId'
+                        }],
+                        target: '_blank'
+                    }
+                }]
             ];
             renderDetails($target, config, data);
         });
@@ -373,7 +392,7 @@ var app = function () {
 
     var updateset = function () {
         var param = parse(location.hash.slice(1));
-
+        console.log(param);
         getApplication(param, $('#app'));
 
         getUpdateSet(param, $('#us'));
