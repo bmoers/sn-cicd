@@ -1,11 +1,13 @@
 {
   "name": "sn-cicd",
-  "version": "2.0.6",
+  "version": "3.0.0",
   "description": "CICD service for Service-Now",
   "main": "lib/cicd.js",
   "scripts": {
-    "start": "nodemon --inspect server.js",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "start": "server.js",
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "devServer": "nodemon --ignore db/ --ignore cert/ --verbose --delay 2 test/test-cicd-server.js",
+    "devWorker": "nodemon --ignore db/ --ignore cert/ --verbose --delay 2 test/test-cicd-worker.js"
   },
   "author": "Boris Moers",
   "license": "LGPL-3.0",
@@ -13,9 +15,14 @@
     "any-shell-escape": "0.1.1",
     "bluebird": "3.5.1",
     "body-parser": "1.18.2",
+    "camelcase": "5.0.0",
     "command-exists": "1.2.4",
+    "console-stamp": "0.2.6",
+    "dotenv": "6.0.0",
     "elementtree": "0.1.7",
     "express": "4.15.3",
+    "express-fileupload": "0.4.0",
+    "extract-zip": "1.6.7",
     "finalhandler": "1.0.3",
     "fs-extra": "5.0.0",
     "gulp-git": "2.5.1",
@@ -25,12 +32,15 @@
     "nedb": "1.8.0",
     "npm": "6.0.0",
     "object-assign-deep": "0.3.1",
+    "puppeteer": "1.8.0",
     "request": "^2.81.0",
     "request-promise": "4.2.2",
     "serve-static": "1.12.3",
     "sn-project": "github:bmoers/sn-project#semver:^2",
     "sn-rest-client": "github:bmoers/sn-rest-client#semver:^1.0.0",
+    "socket.io": "2.1.1",
     "tmp": "0.0.33",
+    "uuid": "3.3.2",
     "xml2js": "0.4.19"
   },
   "devDependencies": {
