@@ -1,5 +1,7 @@
 var app = function () {
 
+    var ROUTE = '/dao';
+
     var parse = function (hash) {
         var regex = /\/app(?:\/([^\/]+))?(?:\/us)?(?:\/([^\/]+))?(?:\/run)?(?:\/([^\/]+))?(?:\/step)?/gi;
         var m = regex.exec(hash);
@@ -169,7 +171,7 @@ var app = function () {
 
         $.ajax({
             dataType: 'json',
-            url: '/app/' + param.app
+            url: ROUTE + '/app/' + param.app
         }).done(function (data) {
             var config = [
                 [{
@@ -201,7 +203,7 @@ var app = function () {
 
         $.ajax({
             dataType: 'json',
-            url: '/us/' + param.us
+            url: ROUTE + '/us/' + param.us
         }).done(function (data) {
             var config = [
                 [{
@@ -271,7 +273,7 @@ var app = function () {
                             field: 'app'
                         }, '/', {
                             field: 'lastBuildSequence'
-                        }, '/docs'],
+                        }, '/doc'],
                         target: '_blank'
                     }
                 }
@@ -309,7 +311,7 @@ var app = function () {
 
         $.ajax({
             dataType: 'json',
-            url: '/app/'
+            url: ROUTE + '/app/'
         }).done(function (data) {
 
             var config = [{
@@ -343,7 +345,7 @@ var app = function () {
 
         getApplication(param, $('#app'));
 
-        var url = (param.app) ? '/app/' + param.app + '/us' : '/us';
+        var url = ROUTE + ((param.app) ? '/app/' + param.app + '/us' : '/us');
 
         // update-set of the app
         $.ajax({
@@ -392,12 +394,12 @@ var app = function () {
 
     var updateset = function () {
         var param = parse(location.hash.slice(1));
-        console.log(param);
+        //console.log(param);
         getApplication(param, $('#app'));
 
         getUpdateSet(param, $('#us'));
 
-        var url = (param.us) ? '/app/' + param.app + '/us/' + param.us + '/run' : '/run';
+        var url = ROUTE + ((param.us) ? '/app/' + param.app + '/us/' + param.us + '/run' : '/run');
 
         // runs of the update-set
         $.ajax({
@@ -441,7 +443,7 @@ var app = function () {
                         field: 'app'
                     }, '/', {
                         field: 'sequence'
-                    }, '/docs'],
+                    }, '/doc'],
                     target: '_blank'
                 }
             },
@@ -481,7 +483,7 @@ var app = function () {
         // run details
         $.ajax({
             dataType: 'json',
-            url: '/app/' + param.app + '/us/' + param.us + '/run/' + param.run
+            url: ROUTE + '/app/' + param.app + '/us/' + param.us + '/run/' + param.run
         }).done(function (data) {
 
             var config = [
@@ -520,7 +522,7 @@ var app = function () {
                     link: {
                         uri: ['/doc/', param.app, '/', {
                             field: 'sequence'
-                        }, '/docs'],
+                        }, '/doc'],
                         target: '_blank'
                     }
                 }
@@ -544,7 +546,7 @@ var app = function () {
         // all steps of the run
         $.ajax({
             dataType: 'json',
-            url: '/app/' + param.app + '/us/' + param.us + '/run/' + param.run + '/step'
+            url: ROUTE + '/app/' + param.app + '/us/' + param.us + '/run/' + param.run + '/step'
         }).done(function (data) {
             var config = [{
                 name: 'Date',
