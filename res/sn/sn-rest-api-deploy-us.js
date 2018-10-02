@@ -6,7 +6,7 @@
  * CD API to request target instance to pull update set
  * 
  * @class 
- * @author Boris Moers [SRZXBX]
+ * @author Boris Moers
  * @requires sn_ws_err.module:sys_script_include.BadRequestError
  * @requires sn_ws.module:sys_script_include.RESTMessageV2
  * @memberof global.module:sys_script_include
