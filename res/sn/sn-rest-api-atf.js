@@ -6,8 +6,7 @@
  * 
  * @module CiCdAtf
  * @class 
- * @author SRZXBX - Boris Moers
- * @requires global.module:sys_script_include.SreLogger
+ * @author Boris Moers
  * @requires sn_ws_err.module:sys_script_include.BadRequestError
  * @requires global.module:sys_script_include.TestExecutorAjax
  * @memberof global.module:sys_script_include
