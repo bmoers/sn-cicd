@@ -6,20 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="icon" href="favicon.ico">
+  <link rel="icon" href="/favicon.ico">
 
-  <title>CICD-Server - Run</title>
+  <title>CICD-Server - Update-Set</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="dashboard.css" rel="stylesheet">
+  <link href="/dashboard.css" rel="stylesheet">
 </head>
 
 <body>
   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">CICD Build</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">CICD-Server</a>
     <!--
       <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3">
@@ -36,21 +36,27 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link" href="/index.html">
+              <a class="nav-link" href="/">
                 <span data-feather="target"></span>
                 Applications
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="us.html">
+              <a class="nav-link" href="/us">
                 <span data-feather="package"></span>
                 Update-Sets
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link  active" href="runs.html">
+              <a class="nav-link" href="/runs">
                 <span data-feather="truck"></span>
                 Build Runs
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/queue">
+                <span data-feather="refresh-cw"></span>
+                Queued Jobs
               </a>
             </li>
           </ul>
@@ -58,39 +64,32 @@
         </div>
       </nav>
 
-      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4  bd-content">
-        <div id="app" class="hidden">
-          <h2 class="pt-2 pb-3">Application</h2>
+      <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4 bd-content">
+        <div id="job-queue">
+          <h2 class="pt-2 pb-3">Job Queue</h2>
           <div class="table-responsive">
             <table class="table table-bordered">
 
             </table>
           </div>
         </div>
-        <div id="us" class="hidden">
-          <h2 class="pt-2 pb-3">Update-Set</h2>
+        <div id="process-queue">
+          <h2 class="pt-2 pb-3">Process Queue</h2>
           <div class="table-responsive">
             <table class="table table-bordered">
 
             </table>
           </div>
         </div>
-        <div id="run" class="hidden">
-          <h2 class="pt-2 pb-3">Build Run</h2>
+        <div id="worker-nodes">
+          <h2 class="pt-2 pb-3">Worker Nodes</h2>
           <div class="table-responsive">
             <table class="table table-bordered">
-
+        
             </table>
           </div>
         </div>
-        <div id="step" class="hidden">
-          <h2 class="pt-2 pb-3">Build Steps</h2>
-          <div class="table-responsive">
-            <table class="table table-striped table-sm">
-
-            </table>
-          </div>
-        </div>
+      
       </main>
     </div>
   </div>
@@ -98,17 +97,17 @@
   <!-- Bootstrap core JavaScript
     ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
   <script>
-    window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')
+    window.jQuery || document.write('<script src="/js/vendor/jquery.min.js"><\/script>')
   </script>
-  <script src="js/vendor/popper.min.js"></script>
+  <script src="/js/vendor/popper.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
 
   <script src="/app.js"></script>
   <script>
-    new app().run();
+    new app().queue();
   </script>
 
   <!-- Icons -->
