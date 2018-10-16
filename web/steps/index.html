@@ -8,7 +8,7 @@
   <meta name="author" content="">
   <link rel="icon" href="/favicon.ico">
 
-  <title>CICD-Server - Overview</title>
+  <title>CICD-Server - Run</title>
 
   <!-- Bootstrap core CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +36,7 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="/">
+              <a class="nav-link" href="/">
                 <span data-feather="target"></span>
                 Applications
               </a>
@@ -48,7 +48,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/runs">
+              <a class="nav-link  active" href="/runs">
                 <span data-feather="truck"></span>
                 Build Runs
               </a>
@@ -66,7 +66,31 @@
 
       <main role="main" class="col-md-10 ml-sm-auto col-lg-10 px-4 bd-content">
         <div id="app" class="hidden">
-          <h2 class="pt-2 pb-3">Applications</h2>
+          <h2 class="pt-2 pb-3">Application</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+
+            </table>
+          </div>
+        </div>
+        <div id="us" class="hidden">
+          <h2 class="pt-2 pb-3">Update-Set</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+
+            </table>
+          </div>
+        </div>
+        <div id="run" class="hidden">
+          <h2 class="pt-2 pb-3">Build Run</h2>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+
+            </table>
+          </div>
+        </div>
+        <div id="step" class="hidden">
+          <h2 class="pt-2 pb-3">Build Steps</h2>
           <div class="table-responsive">
             <table class="table table-striped table-sm">
 
@@ -90,7 +114,7 @@
 
   <script src="/app.js"></script>
   <script>
-    new app().overview();
+    new app().run();
   </script>
 
   <!-- Icons -->

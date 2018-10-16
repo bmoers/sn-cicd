@@ -90,20 +90,31 @@ var app = function () {
             var fieldArray = (field || '').split('.');
             var element = data;
             $.each(fieldArray, function (i, field) {
-                element = element[field];
+                if (element && field in element) {
+                    element = element[field];
+                } else {
+                    element = null;
+                }
             });
-            if ('ts' == field)
-                return new Date(element).toLocaleString();
-            if (encode && encode in window)
-                element = window[encode](element);
+            if (element !== null) {
+                if (typeof element == 'object') {
+                    element = Object.keys(element).reduce(function (prev, e) {
+                        return prev += ' <b>' + e + '</b> : ' + element[e];
+                    }, '');
+                }
+                if ('ts' == field || meta.type == 'ts')
+                    return new Date(element).toLocaleString();
+                if (encode && encode in window)
+                    element = window[encode](element);
+            }
             return element;
         })();
 
         if (typeof val === 'string')
             return val.replace(/\n/g, '<br />');
-        
+
         return val;
-        
+
     };
 
 
@@ -165,8 +176,6 @@ var app = function () {
         $target.show();
     };
 
-
-
     var getApplication = function (param, $target) {
 
         $.ajax({
@@ -176,19 +185,19 @@ var app = function () {
             var config = [
                 [{
                     name: 'Name',
-                    field: 'application.name',
+                    field: 'name',
                     link: {
-                        uri: ['us.html#/app/', {
+                        uri: ['/us#/app/', {
                             field: '_id'
                         }]
                     }
                 },
                 {
                     name: 'Repo',
-                    field: 'application.git.repository',
+                    field: 'git.repository',
                     link: {
                         uri: [{
-                            field: 'application.git.url'
+                            field: 'git.url'
                         }],
                         target: '_blank'
                     }
@@ -199,19 +208,19 @@ var app = function () {
         });
     };
 
-    var getUpdateSet = function (param, $target) {
+    var getUpdateSet = function (param, $target, layout) {
 
         $.ajax({
             dataType: 'json',
             url: ROUTE + '/us/' + param.us
         }).done(function (data) {
-            var config = [
+            var config = layout || [
                 [{
                     name: 'Name',
                     field: 'name',
                     link: {
-                        uri: ['runs.html#/app/', {
-                            field: 'app'
+                        uri: ['/runs#/app/', {
+                            field: 'appId'
                         }, '/us/', {
                             field: '_id'
                         }]
@@ -228,80 +237,109 @@ var app = function () {
                 }],
                 [{
                     name: 'Branch',
-                    field: 'branchName',
+                    field: 'lastSuccessfulRun.config.branchName',
                     link: {
                         uri: [{
-                            field: 'config.application.git.url'
+                            field: 'lastSuccessfulRun.config.git.url'
                         }, '/browse?at=refs%2Fheads%2F', {
-                            field: 'branchName',
+                            field: 'lastSuccessfulRun.config.branchName',
                             encode: 'encodeURIComponent'
                         }],
                         target: '_blank'
                     }
                 }],
                 [{
-                    name: 'State',
-                    field: 'state',
+                    name: 'Latest State',
+                    field: 'lastSuccessfulRun.state',
                     class: {
-                        match: 'failed', true: 'table-danger', false: 'table-success'
+                        match: 'successful', true: 'table-success', false: 'table-danger'
                     }
                 }, {
                     name: 'Running',
                     field: 'running',
                     class: {
-                        match: true, true: 'text-danger', false: ''
+                        match: true, true: 'table-danger', false: ''
                     }
                 }],
-                [{
-                    name: 'Latest Test-Results',
-                    text: 'open',
-                    link: {
-                        uri: ['/doc/', {
-                            field: 'app'
-                        }, '/', {
-                            field: 'lastBuildSequence'
-                        }, '/test'],
-                        target: '_blank'
-                    }
+                (function () {
+                    var row = [];
+                    if (data.lastSuccessfulRun && data.lastSuccessfulRun.build.test && data.lastSuccessfulRun.build.test.enabled !== false) {
+                        row.push({
+                            name: 'Latest Test-Results',
+                            text: 'open',
+                            link: {
+                                uri: ['/doc/', {
+                                    field: 'appId'
+                                }, '/', {
+                                    field: 'lastSuccessfulRun.sequence'
+                                }, '/test'],
+                                target: '_blank'
+                            }
 
-                },
-                {
-                    name: 'Latest Documentation',
-                    text: 'open',
-                    link: {
-                        uri: ['/doc/', {
-                            field: 'app'
-                        }, '/', {
-                            field: 'lastBuildSequence'
-                        }, '/doc'],
-                        target: '_blank'
+                        });
+                    } else {
+                        row.push({
+                            name: 'Latest Test-Results',
+                            text: 'disabled'
+                        });
                     }
-                }
-                ],
-                [{
-                    name: 'Latest Quality Report',
-                    text: 'open',
-                    link: {
-                        uri: ['/doc/', {
-                            field: 'app'
-                        }, '/', {
-                            field: 'lastBuildSequence'
-                        }, '/lint'],
-                        target: '_blank'
+                    if (data.lastSuccessfulRun && data.lastSuccessfulRun.build.doc && data.lastSuccessfulRun.build.doc.enabled !== false) {
+                        row.push({
+                            name: 'Latest Documentation',
+                            text: 'open',
+                            link: {
+                                uri: ['/doc/', {
+                                    field: 'appId'
+                                }, '/', {
+                                    field: 'lastSuccessfulRun.sequence'
+                                }, '/doc'],
+                                target: '_blank'
+                            }
+                        });
+                    } else {
+                        row.push({
+                            name: 'Latest Documentation',
+                            text: 'disabled'
+                        });
                     }
+                    return row;
+                })(),
+                (function () {
+                    var row = [];
+                    if (data.lastSuccessfulRun && data.lastSuccessfulRun.build.lint && data.lastSuccessfulRun.build.lint.enabled !== false) {
+                        row.push({
+                            name: 'Latest Quality Report',
+                            text: 'open',
+                            link: {
+                                uri: ['/doc/', {
+                                    field: 'appId'
+                                }, '/', {
+                                    field: 'lastSuccessfulRun.sequence'
+                                }, '/lint'],
+                                target: '_blank'
+                            }
 
-                }, {
-                    name: 'Source',
-                    field: 'config.host.name',
-                    link: {
-                        uri: [{
-                            field: 'config.host.name'
-                        }, '/sys_update_set.do?sys_id=', {
-                            field: 'updateSetId'
-                        }],
-                        target: '_blank'
+                        });
+                    } else {
+                        row.push({
+                            name: 'Latest Quality Report',
+                            text: 'disabled'
+                        });
                     }
-                }]
+                    row.push({
+                        name: 'Source',
+                        field: 'lastSuccessfulRun.config.host.name',
+                        link: {
+                            uri: [{
+                                field: 'lastSuccessfulRun.config.host.name'
+                            }, '/sys_update_set.do?sys_id=', {
+                                field: 'updateSetId'
+                            }],
+                            target: '_blank'
+                        }
+                    });
+                    return row;
+                })()
             ];
             renderDetails($target, config, data);
         });
@@ -316,19 +354,19 @@ var app = function () {
 
             var config = [{
                 name: 'Name',
-                field: 'application.name',
+                field: 'name',
                 link: {
-                    uri: ['us.html#/app/', {
+                    uri: ['/us#/app/', {
                         field: '_id'
                     }]
                 }
             },
             {
                 name: 'Repo',
-                field: 'application.git.repository',
+                field: 'git.repository',
                 link: {
                     uri: [{
-                        field: 'application.git.url'
+                        field: 'git.url'
                     }],
                     target: '_blank'
                 }
@@ -357,8 +395,8 @@ var app = function () {
                 name: 'Name',
                 field: 'name',
                 link: {
-                    uri: ['runs.html#/app/', {
-                        field: 'app'
+                    uri: ['/runs#/app/', {
+                        field: 'appId'
                     }, '/us/', {
                         field: '_id'
                     }]
@@ -371,12 +409,12 @@ var app = function () {
                 field: 'updateSet.description'
             }, {
                 name: 'Branch',
-                field: 'branchName'
+                field: 'lastSuccessfulRun.config.branchName'
             }, {
                 name: 'State',
-                field: 'state',
+                field: 'lastSuccessfulRun.state',
                 class: {
-                    match: 'failed', true: 'text-danger', false: 'text-success'
+                    match: 'successful', true: 'text-success', false: 'text-danger'
                 }
             }, {
                 name: 'Running',
@@ -411,10 +449,10 @@ var app = function () {
                 name: 'Sequence',
                 field: 'sequence',
                 link: {
-                    uri: ['steps.html#/app/', {
-                        field: 'app'
+                    uri: ['/steps#/app/', {
+                        field: 'appId'
                     }, '/us/', {
-                        field: 'us'
+                        field: 'usId'
                     }, '/run/', {
                         field: '_id'
                     }]
@@ -427,7 +465,7 @@ var app = function () {
                 text: 'open',
                 link: {
                     uri: ['/doc/', {
-                        field: 'app'
+                        field: 'appId'
                     }, '/', {
                         field: 'sequence'
                     }, '/test'],
@@ -440,7 +478,7 @@ var app = function () {
                 text: 'open',
                 link: {
                     uri: ['/doc/', {
-                        field: 'app'
+                        field: 'appId'
                     }, '/', {
                         field: 'sequence'
                     }, '/doc'],
@@ -452,7 +490,7 @@ var app = function () {
                 text: 'open',
                 link: {
                     uri: ['/doc/', {
-                        field: 'app'
+                        field: 'appId'
                     }, '/', {
                         field: 'sequence'
                     }, '/lint'],
@@ -463,7 +501,7 @@ var app = function () {
                 name: 'State',
                 field: 'state',
                 class: {
-                    match: 'failed', true: 'text-danger', false: 'text-success'
+                    match: 'successful', true: 'table-success', false: 'table-danger'
                 }
             }
             ];
@@ -478,20 +516,45 @@ var app = function () {
 
         getApplication(param, $('#app'));
 
-        getUpdateSet(param, $('#us'));
+        getUpdateSet(param, $('#us'), [
+            [{
+                name: 'Name',
+                field: 'name',
+                link: {
+                    uri: ['/runs#/app/', {
+                        field: 'appId'
+                    }, '/us/', {
+                        field: '_id'
+                    }]
+                }
+            },
+            {
+                name: 'UpdatedBy',
+                field: 'updateSet.sys_updated_by'
+            }
+            ]]);
 
         // run details
         $.ajax({
             dataType: 'json',
             url: ROUTE + '/app/' + param.app + '/us/' + param.us + '/run/' + param.run
         }).done(function (data) {
+            data = data || {};
+            if (data.buildPass === true)
+                data.buildPass = 'passed';
+            else if (data.buildPass === false)
+                data.buildPass = 'failed';
+            else
+                data.buildPass = '';
+
+            //data.buildPass = (data.buildPass) ? 'passed' : 'failed';
 
             var config = [
                 [{
                     name: 'Sequence',
                     field: 'sequence',
                     link: {
-                        uri: ['runs.html#/app/', param.app, '/us/', param.us, '/run/', {
+                        uri: ['/runs#/app/', param.app, '/us/', param.us, '/run/', {
                             field: '_id'
                         }]
                     }
@@ -503,42 +566,83 @@ var app = function () {
                     name: 'State',
                     field: 'state',
                     class: {
-                        match: 'failed', true: 'table-danger', false: 'table-success'
+                        match: 'successful', true: 'table-success', false: 'table-danger'
                     }
                 }, {}],
-                [{
-                    name: 'Test-Results',
-                    text: 'open',
-                    link: {
-                        uri: ['/doc/', param.app, '/', {
-                            field: 'sequence'
-                        }, '/test'],
-                        target: '_blank'
+                [
+                    {
+                        name: 'Build',
+                        field: 'buildPass',
+                        class: {
+                            match: 'failed', true: 'text-danger', false: 'text-success'
+                        }
+                    },
+                    {
+                        name: 'Build Results',
+                        field: 'buildResults'
                     }
-                },
-                {
-                    name: 'Documentation',
-                    text: 'open',
-                    link: {
-                        uri: ['/doc/', param.app, '/', {
-                            field: 'sequence'
-                        }, '/doc'],
-                        target: '_blank'
-                    }
-                }
                 ],
-                [{
-                    name: 'Quality Report',
-                    text: 'open',
-                    link: {
-                        uri: ['/doc/', param.app, '/', {
-                            field: 'sequence'
-                        }, '/lint'],
-                        target: '_blank'
+                (function () {
+                    var row = [];
+                    if (data.build && data.build.test && data.build.test.enabled !== false) {
+                        row.push({
+                            name: 'Test-Results',
+                            text: 'open',
+                            link: {
+                                uri: ['/doc/', param.app, '/', {
+                                    field: 'sequence'
+                                }, '/test'],
+                                target: '_blank'
+                            }
+                        });
+                    } else {
+                        row.push({
+                            name: 'Test-Results',
+                            text: 'disabled'
+                        });
                     }
-                }, {}]
+                    if (data.build && data.build.doc && data.build.doc.enabled !== false) {
+                        row.push({
+                            name: 'Documentation',
+                            text: 'open',
+                            link: {
+                                uri: ['/doc/', param.app, '/', {
+                                    field: 'sequence'
+                                }, '/doc'],
+                                target: '_blank'
+                            }
+                        });
+                    } else {
+                        row.push({
+                            name: 'Documentation',
+                            text: 'disabled'
+                        });
+                    }
+                    return row;
+                })(),
+                (function () {
+                    var row = [];
+                    if (data.build && data.build.lint && data.build.lint.enabled !== false) {
+                        row.push({
+                            name: 'Quality Report',
+                            text: 'open',
+                            link: {
+                                uri: ['/doc/', param.app, '/', {
+                                    field: 'sequence'
+                                }, '/lint'],
+                                target: '_blank'
+                            }
+                        });
+                    } else {
+                        row.push({
+                            name: 'Quality Report',
+                            text: 'disabled'
+                        });
+                    }
+                    row.push({});
+                    return row;
+                })()
             ];
-
             renderDetails($('#run'), config, data);
 
         });
@@ -556,9 +660,111 @@ var app = function () {
                 field: 'state'
             }];
 
+            /*
+            // rotate multiline state values to be bottom up
+            data = data.map(function (row) {
+                row.state = (row.state || '').split(/\n/).reverse().filter(function (t, index) {
+                    return (index === 0 && t.trim().length || index != 0);
+                }).join('\n');
+                return row;
+            });
+            */
             renderList($('#step'), config, data);
 
         });
+    };
+
+    var queue = function () {
+        $.ajax({
+            dataType: 'json',
+            url: '/eb/jobs'
+        }).done(function (data) {
+
+            var config = [{
+                name: 'Name',
+                field: 'name'
+            }, {
+                name: 'Description',
+                field: 'description'
+            }, {
+                name: 'Created',
+                field: 'created',
+                type: 'ts'
+            }, {
+                name: 'Completed',
+                field: 'completed',
+                type: 'ts'
+            }, {
+                name: 'State',
+                field: 'status'
+            }, {
+                name: 'Result',
+                field: 'result'
+            }];
+            renderList($('#job-queue'), config, data);
+
+        });
+
+        $.ajax({
+            dataType: 'json',
+            url: '/eb/exe'
+        }).done(function (data) {
+
+            var config = [{
+                name: 'Name',
+                field: 'name'
+            }, {
+                name: 'Created',
+                field: 'created',
+                type: 'ts'
+            }, {
+                name: 'Completed',
+                field: 'completed',
+                type: 'ts'
+            },
+
+            {
+                name: 'Host',
+                field: 'host'
+            },
+
+            {
+                name: 'State',
+                field: 'status'
+            },
+            {
+                name: 'Client',
+                field: 'runByClient'
+            }];
+            renderList($('#process-queue'), config, data);
+        });
+
+        $.ajax({
+            dataType: 'json',
+            url: '/eb/worker'
+        }).done(function (data) {
+
+            var config = [{
+                name: 'Host',
+                field: 'host'
+            }, {
+                name: 'Job Worker',
+                field: 'status'
+            }, {
+                name: '# Job',
+                field: 'assignedJobs'
+            }, {
+                name: '# Process',
+                field: 'assignedExecutions'
+            },
+            {
+                name: 'Stats',
+                field: 'statistics.num'
+            }];
+            renderList($('#worker-nodes'), config, data);
+
+        });
+
     };
 
     return {
@@ -580,6 +786,11 @@ var app = function () {
         run: function () {
             $(document).ready(function () {
                 run();
+            });
+        },
+        queue: function () {
+            $(document).ready(function () {
+                queue();
             });
         }
     };
