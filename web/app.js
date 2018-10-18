@@ -269,9 +269,7 @@ var app = function () {
                             text: 'open',
                             link: {
                                 uri: ['/doc/', {
-                                    field: 'appId'
-                                }, '/', {
-                                    field: 'lastSuccessfulRun.sequence'
+                                    field: 'lastSuccessfulRun.dir.web'
                                 }, '/test'],
                                 target: '_blank'
                             }
@@ -289,9 +287,7 @@ var app = function () {
                             text: 'open',
                             link: {
                                 uri: ['/doc/', {
-                                    field: 'appId'
-                                }, '/', {
-                                    field: 'lastSuccessfulRun.sequence'
+                                    field: 'lastSuccessfulRun.dir.web'
                                 }, '/doc'],
                                 target: '_blank'
                             }
@@ -312,9 +308,7 @@ var app = function () {
                             text: 'open',
                             link: {
                                 uri: ['/doc/', {
-                                    field: 'appId'
-                                }, '/', {
-                                    field: 'lastSuccessfulRun.sequence'
+                                    field: 'lastSuccessfulRun.dir.web'
                                 }, '/lint'],
                                 target: '_blank'
                             }
@@ -465,9 +459,7 @@ var app = function () {
                 text: 'open',
                 link: {
                     uri: ['/doc/', {
-                        field: 'appId'
-                    }, '/', {
-                        field: 'sequence'
+                        field: 'dir.web'
                     }, '/test'],
                     target: '_blank'
                 }
@@ -478,9 +470,7 @@ var app = function () {
                 text: 'open',
                 link: {
                     uri: ['/doc/', {
-                        field: 'appId'
-                    }, '/', {
-                        field: 'sequence'
+                        field: 'dir.web'
                     }, '/doc'],
                     target: '_blank'
                 }
@@ -490,9 +480,7 @@ var app = function () {
                 text: 'open',
                 link: {
                     uri: ['/doc/', {
-                        field: 'appId'
-                    }, '/', {
-                        field: 'sequence'
+                        field: 'dir.web'
                     }, '/lint'],
                     target: '_blank'
                 }
@@ -589,8 +577,8 @@ var app = function () {
                             name: 'Test-Results',
                             text: 'open',
                             link: {
-                                uri: ['/doc/', param.app, '/', {
-                                    field: 'sequence'
+                                uri: ['/doc/', {
+                                    field: 'dir.web'
                                 }, '/test'],
                                 target: '_blank'
                             }
@@ -606,8 +594,8 @@ var app = function () {
                             name: 'Documentation',
                             text: 'open',
                             link: {
-                                uri: ['/doc/', param.app, '/', {
-                                    field: 'sequence'
+                                uri: ['/doc/', {
+                                    field: 'dir.web'
                                 }, '/doc'],
                                 target: '_blank'
                             }
@@ -627,8 +615,8 @@ var app = function () {
                             name: 'Quality Report',
                             text: 'open',
                             link: {
-                                uri: ['/doc/', param.app, '/', {
-                                    field: 'sequence'
+                                uri: ['/doc/', {
+                                    field: 'dir.web'
                                 }, '/lint'],
                                 target: '_blank'
                             }
