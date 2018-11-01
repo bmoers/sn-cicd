@@ -1,6 +1,6 @@
 
 const os = require('os');
-var Git = require('../lib/git');
+var Git = require('sn-project/lib/git');
 
 const git = new Git({dir: `${os.tmpdir()}/git-branchname-test`});
 
