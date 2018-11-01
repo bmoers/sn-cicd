@@ -1,6 +1,6 @@
 {
   "name": "sn-cicd",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "CICD service for Service-Now",
   "main": "lib/cicd.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "express": "4.15.3",
     "express-fileupload": "0.4.0",
     "extract-zip": "1.6.7",
+    "fast-diff": "1.2.0",
     "figlet": "1.2.0",
     "fs-extra": "5.0.0",
     "gulp-git": "2.5.1",
