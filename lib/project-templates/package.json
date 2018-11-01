@@ -16,7 +16,7 @@
 		"mochawesome": "3.0.2",
 		"request": "2.88.0",
 		"request-promise": "4.2.2",
-		"sn-cicd": "github:bmoers/sn-cicd#semver:^2",
+		"sn-project": "github:bmoers/sn-project#semver:^3",
 		"uuid": "3.3.2"
 	},
 	"scripts": {
