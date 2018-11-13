@@ -5,8 +5,7 @@ module.exports = {
         env: {
             NODE_ENV: "production"
         }
-    },
-    {
+    }, {
         name: "worker",
         script: "./worker.js",
         instances: "max",
