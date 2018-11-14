@@ -1,13 +1,17 @@
 {
   "name": "sn-cicd",
-  "version": "3.0.10",
+  "version": "3.0.11",
   "description": "CICD service for Service-Now",
   "main": "lib/cicd.js",
   "scripts": {
-    "start": "server.js",
+    "start": "node server.js",
+    "worker": "node worker.js",
+    "server": "node server.js",
+    "startMonitored": "nodemon --inspect server.js",
     "test": "echo \"Error: no test specified\" && exit 0",
-    "devServer": "nodemon --ignore cert/**/* --ignore db/**/* --verbose --delay 2 test/test-cicd-server.js",
-    "devWorker": "nodemon --ignore cert/**/* --ignore db/**/* --verbose --delay 2 test/test-cicd-worker.js"
+    "devServer": "nodemon --ignore cert/**/* --ignore db/**/* --verbose --delay 2 server.js",
+    "devWorker": "nodemon --ignore cert/**/* --ignore db/**/* --verbose --delay 2 worker.js",
+    "setup": "npm cache clean && rm -rf node_modules && npm install"
   },
   "author": "Boris Moers",
   "license": "LGPL-3.0",
