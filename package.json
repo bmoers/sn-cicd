@@ -1,6 +1,6 @@
 {
   "name": "sn-cicd",
-  "version": "3.1.4",
+  "version": "3.2.0",
   "description": "CICD service for Service-Now",
   "main": "lib/cicd.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "console-stamp": "0.2.6",
     "dotenv": "6.0.0",
     "elementtree": "0.1.7",
+    "es6-dynamic-template": "1.0.5",
     "express": "4.15.3",
     "express-fileupload": "0.4.0",
     "extract-zip": "1.6.7",
