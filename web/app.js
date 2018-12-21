@@ -240,10 +240,7 @@ var app = function () {
                     field: 'lastSuccessfulRun.config.branchName',
                     link: {
                         uri: [{
-                            field: 'lastSuccessfulRun.config.git.url'
-                        }, '/browse?at=refs%2Fheads%2F', {
-                            field: 'lastSuccessfulRun.config.branchName',
-                            encode: 'encodeURIComponent'
+                            field: 'lastSuccessfulRun.config.git.branchLink'
                         }],
                         target: '_blank'
                     }
