@@ -1,6 +1,6 @@
 {
   "name": "sn-cicd",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "description": "CICD service for Service-Now",
   "main": "lib/cicd.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "worker": "node worker.js",
     "server": "node server.js",
     "startMonitored": "nodemon --inspect server.js",
-    "test": "echo \"Error: no test specified\" && exit 0",
+    "test": "mocha",
     "devServer": "nodemon --ignore cert/**/* --ignore db/**/* --verbose --delay 2 server.js",
     "devWorker": "nodemon --ignore cert/**/* --ignore db/**/* --verbose --delay 2 worker.js",
     "setup": "npm cache clean && rm -rf node_modules && npm install"
@@ -41,7 +41,7 @@
     "request": "2.88.0",
     "request-promise": "4.2.2",
     "serve-static": "1.12.3",
-    "sn-project": "github:bmoers/sn-project#semver:^3.6.0",
+    "sn-project": "github:bmoers/sn-project#semver:^3.6.2",
     "sn-rest-client": "github:bmoers/sn-rest-client#semver:^2",
     "socket.io": "2.1.1",
     "socket.io-client": "2.1.1",
@@ -52,7 +52,10 @@
     "xml-js": "1.6.9"
   },
   "devDependencies": {
-    "nodemon": "1.11.0"
+    "chai": "4.2.0",
+    "mocha": "6.0.2",
+    "nodemon": "1.11.0",
+    "tree-kill": "1.2.1"
   },
   "directories": {
     "lib": "lib"
