@@ -1,6 +1,6 @@
 {
 	"name": "@companyname/appname",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"devDependencies": {
 		"archiver": "3.0.0",
 		"bluebird": "3.4.7",
@@ -20,6 +20,7 @@
 		"uuid": "3.3.2"
 	},
 	"scripts": {
-		"build": "gulp"
+		"build": "gulp",
+		"deploy": "gulp deploy"
 	}
 }
