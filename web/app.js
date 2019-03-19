@@ -421,6 +421,82 @@ var app = function () {
 
     };
 
+    var deployment = function () {
+        var param = parse(location.hash.slice(1));
+        //console.log(param);
+        getApplication(param, $('#app'));
+
+        getUpdateSet(param, $('#us'), [
+            [{
+                name: 'Name',
+                field: 'name',
+                link: {
+                    uri: ['/runs#/app/', {
+                        field: 'appId'
+                    }, '/us/', {
+                        field: '_id'
+                    }]
+                }
+            },
+            {
+                name: 'UpdatedBy',
+                field: 'updateSet.sys_updated_by'
+            }
+            ]]);
+
+        // run details
+        $.ajax({
+            dataType: 'json',
+            url: ROUTE + '/app/' + param.app + '/us/' + param.us + '/deployment/' + param.run
+        }).done(function (data) {
+            data = data || {};
+            if (data.state == 'completed')
+                data.duration = (data.end - data.start) / 1000;
+
+            data.start = (data.start == -1) ? '' : new Date(data.start).toLocaleString();
+            data.end = (data.end == -1) ? '' : new Date(data.end).toLocaleString();
+            var config = [
+                [{
+                    name: 'State',
+                    field: 'state',
+                    class: {
+                        match: 'completed', true: 'table-success', false: 'table-danger'
+                    }
+                }, {
+                    name: 'Duration (sec)',
+                    field: 'duration'
+
+                }],
+                [{
+                    name: 'From',
+                    field: 'from'
+
+                }, {
+                    name: 'To',
+                    field: 'to'
+                }],
+                [{
+                    name: 'Start',
+                    field: 'start'
+
+                }, {
+                    name: 'End',
+                    field: 'end'
+                }],
+                [{
+                    name: 'Mode',
+                    field: 'mode'
+
+                }, {
+                    name: 'Type',
+                    field: 'type'
+                }]
+            ];
+            renderDetails($('#deployment'), config, data);
+
+        });
+    };
+
     var updateset = function () {
         var param = parse(location.hash.slice(1));
         //console.log(param);
@@ -436,6 +512,11 @@ var app = function () {
             url: url
         }).done(function (data) {
 
+            data = data.map(function (d) {
+                d.commitId = (d.commitId) ? d.commitId.substr(0, 8) : '';
+                return d;
+            });
+
             var config = [{
                 name: 'Sequence',
                 field: 'sequence',
@@ -448,6 +529,9 @@ var app = function () {
                         field: '_id'
                     }]
                 }
+            }, {
+                name: 'ID',
+                field: 'commitId'
             }, {
                 name: 'Date',
                 field: 'ts'
@@ -492,6 +576,133 @@ var app = function () {
             ];
 
             renderList($('#run'), config, data);
+
+        });
+
+        url = ROUTE + ((param.us) ? '/app/' + param.app + '/us/' + param.us + '/deployment' : '/deployment');
+        // runs of the update-set
+        $.ajax({
+            dataType: 'json',
+            url: url
+        }).done(function (data) {
+
+            data = data.map(function (d) {
+                if (d.state == 'completed')
+                    d.duration = (d.end - d.start) / 1000;
+
+                d.start = (d.start == -1) ? '' : new Date(d.start).toLocaleString();
+                d.end = (d.end == -1) ? '' : new Date(d.end).toLocaleString();
+
+                d.commitId = (d.commitId) ? d.commitId.substr(0, 8) : '';
+                return d;
+            });
+
+            var config = [{
+                name: 'Start',
+                field: 'start',
+                __link: {
+                    uri: ['/deployment#/app/', {
+                        field: 'appId'
+                    }, '/us/', {
+                        field: 'usId'
+                    }, '/run/', {
+                        field: '_id'
+                    }]
+                }
+            }, {
+                name: 'ID',
+                field: 'commitId'
+            }, {
+                name: 'Duration (s)',
+                field: 'duration'
+            },
+            {
+                name: 'Source',
+                field: 'from'
+            }, {
+                name: 'Target',
+                field: 'to'
+            },
+            {
+                name: 'Type',
+                field: 'type'
+
+            },
+            {
+                name: 'Mode',
+                field: 'mode'
+
+            },
+            {
+                name: 'State',
+                field: 'state',
+                class: {
+                    match: 'completed', true: 'table-success', false: 'table-danger'
+                }
+            }
+            ];
+
+            renderList($('#deployment'), config, data);
+
+        });
+
+        url = ROUTE + ((param.us) ? '/app/' + param.app + '/us/' + param.us + '/test' : '/test');
+        // runs of the update-set
+        $.ajax({
+            dataType: 'json',
+            url: url
+        }).done(function (data) {
+
+            data = data.map(function (d) {
+                d.suites = (d.suites) ? d.suites.length : 0;
+                d.tests = (d.tests) ? d.tests.length : 0;
+                d.commitId = (d.commitId) ? d.commitId.substr(0, 8) : '';
+                return d;
+            });
+            var config = [{
+                name: 'Date',
+                field: 'ts',
+                __link: {
+                    uri: ['/deployment#/app/', {
+                        field: 'appId'
+                    }, '/us/', {
+                        field: 'usId'
+                    }, '/run/', {
+                        field: '_id'
+                    }]
+                }
+            }, {
+                name: 'ID',
+                field: 'commitId'
+            },
+            {
+                name: 'Run On',
+                field: 'on'
+            },
+            {
+                name: 'Suites',
+                field: 'suites'
+
+            },
+            {
+                name: 'Tests',
+                field: 'tests'
+
+            },
+            {
+                name: 'State',
+                field: 'state'
+            },
+            {
+                name: 'Passed',
+                field: 'passed',
+                class: {
+                    match: false, false: '', true: 'table-danger'
+                }
+            }
+            ];
+
+            renderList($('#test'), config, data);
 
         });
     };
@@ -624,7 +835,10 @@ var app = function () {
                             text: 'disabled'
                         });
                     }
-                    row.push({});
+                    row.push({
+                        name: 'CommitId',
+                        field: 'commitId'
+                    });
                     return row;
                 })()
             ];
@@ -776,6 +990,11 @@ var app = function () {
         queue: function () {
             $(document).ready(function () {
                 queue();
+            });
+        },
+        deployment: function () {
+            $(document).ready(function () {
+                deployment();
             });
         }
     };
