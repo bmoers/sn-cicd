@@ -1,3 +1,28 @@
+
+
+
+
+
+Bamboo setup
+
+CICD_GIT_PR_ENABLED=true
+CICD_GIT_DELETE_BRANCH_ON_MERGE=true
+
+
+CICD_EMBEDDED_BUILD=true
+
+CICD_CD_DEPLOY_ON_PR_RESOLVE = false
+CICD_CD_DEPLOY_ON_BUILD_PASS=false
+CICD_CD_DEPLOY_FROM_GIT=true
+
+
+issues
+- user locke if target can not connect to source
+- Using MID Server and getting No Sensors Defined
+
+
+
+
 # CICD Server for Service-Now (V3)
 
 This is the core CICD Server in version 3.\
@@ -14,9 +39,16 @@ For an implementation example, please have a look at https://github.com/bmoers/s
 - [Release Notes](#release-notes-(3.0.0---3.1.0))
 - [Dependencies](#project-dependencies)
 
+GULP
+gulp test --on-host dev65672.service-now.com
+
 ## Whats New
 #### Developers (End Users)
-- All changes are exported now to GIT 
+- Deploy update set from git repo
+    - extract the code from the XML saved to git instead from the source environment
+- Run CICD on scoped apps
+    - automatically create an update set containing the complete scoped app and send it to the pipeline
+- All changes are now exported to GIT
     - Fields containing JavaScript are still created as .js files
     - All other files / fields are exported as JSON
     - No 'empty pull request' anymore
@@ -28,7 +60,12 @@ For an implementation example, please have a look at https://github.com/bmoers/s
 
 
 #### Platform
-- Use of scripted REST API to interact with ServiceNow [Global Scoped App](https://github.com/bmoers/sn-cicd-integration)
+- Pull request proxy
+    - route PR information from public git repo to CICD server
+- REST API endpoints to integrate with standard build tools
+    - trigger ATF test or deployment
+- Use of scripted REST API to interact with ServiceNow 
+    - [sn-cicd-integration (Global Scoped App)](https://github.com/bmoers/sn-cicd-integration)
 -   Message-Queue driven Master/Worker architecture
     - Easy to scale up by adding additional workers (on local- or remote server)
 -	ATF runs as worker job on server (and not anymore on build process/build tool)
@@ -45,7 +82,12 @@ For an implementation example, please have a look at https://github.com/bmoers/s
 -	Option to extend or overwrite CICD server modules
 -	Credentials only stored on CICD server (as env. variable) no Oauth token used anymore
 
-
+# Process Flow
+| Step | Dev | Test | Prod |
+|------|-----|------|------|
+|      | Run CICD > |      |      |
+|      |     |      |      |
+|      |     |      |      |
 
 ## Features
 
@@ -87,8 +129,101 @@ On request (received from Service-Now) do:
 Please fork, please contribute.
 
 
+<!-- 
+https://www.npmjs.com/package/git-release-notes 
+git-release-notes 3.1.0... markdown 
+-->
+## Release Notes (3.0.0 - 3.3.1) 
 
-## Release Notes (3.0.0 - 3.1.0)
+* __3.3.1 fix for delete files__
+
+    [Boris Moers](mailto:boris@moers.ch) - Mon, 11 Feb 2019 13:35:43 +0100
+
+
+
+* __fix for deletes not correctly tracked from update-set__
+
+    [Boris Moers](mailto:boris@moers.ch) - Thu, 7 Feb 2019 17:23:59 +0100
+
+
+
+* __3.2.2 - new release for PR #6__
+
+    [Boris Moers](mailto:boris@moers.ch) - Tue, 15 Jan 2019 10:57:36 +0100
+
+
+
+* __user for loading update-set form source should be CICD_CI_USER__
+
+    [Brian Chen](mailto:gitlabalarm@gmail.com) - Tue, 15 Jan 2019 09:36:23 +1100
+
+
+
+* __.env example__
+
+    [Boris Moers](mailto:boris@moers.ch) - Thu, 10 Jan 2019 15:05:47 +0100
+
+
+
+* __typos__
+
+    [Boris Moers](mailto:boris@moers.ch) - Thu, 10 Jan 2019 15:03:44 +0100
+
+
+
+* __3.2.1 - fix for CICD_SLACK_ENABLED toggle not working - console error in case of addStep error__
+
+    [Boris Moers](mailto:boris@moers.ch) - Fri, 21 Dec 2018 14:38:27 +0100
+
+
+
+* __3.2.0 - requires sn-cicd-integration ^1.2.3 - new CICD_EXPORT_SYS_FIELD_WHITELIST option to reduce th noise in PR - new CICD_GIT_BRANCH_LINK_TEMPLATE opt to controll link to rb in web-ui - new CICD_WEB_DIR option to have fully customized web UI - additionally fetch meta data from &#39;sys_scope&#39; - fix for CICD_EXPORT_NULL_FOR_EMPTY to not modify the payload by error - fix to get scope
+from sys_update_xml record instead of sys_update_set - fix for non strings in getDisplayValue()__
+
+    [Boris Moers](mailto:boris@moers.ch) - Fri, 21 Dec 2018 11:49:39 +0100
+
+
+
+* __dont log args__
+
+    [Boris Moers](mailto:boris@moers.ch) - Wed, 5 Dec 2018 21:10:21 +0100
+
+
+
+* __less log noise on preview problems__
+
+    [Boris Moers](mailto:boris@moers.ch) - Wed, 5 Dec 2018 20:46:56 +0100
+
+
+
+* __3.1.4 - fix for teststep not always returning a promise__
+
+    [Boris Moers](mailto:boris@moers.ch) - Tue, 4 Dec 2018 12:28:36 +0100
+
+
+
+* __3.1.3 - in case only test-steps are captured in a US, find and exe its test__
+
+    [Boris Moers](mailto:boris@moers.ch) - Fri, 30 Nov 2018 14:58:42 +0100
+
+
+
+* __3.1.2 - set update-set status to CODE_REVIEW_PENDING on PR raised__
+
+    [Boris Moers](mailto:boris@moers.ch) - Fri, 30 Nov 2018 13:49:56 +0100
+
+
+
+* __3.1.1 - close update set on pr merge if no deployment requred__
+
+    [Boris Moers](mailto:boris@moers.ch) - Fri, 30 Nov 2018 10:24:13 +0100
+
+
+
+* __V3 readme__
+
+    [Boris Moers](mailto:boris@moers.ch) - Thu, 29 Nov 2018 13:59:46 +0100
+
 
 * __3.1.0 - export empty values as null   CICD_EXPORT_NULL_FOR_EMPTY - auto delete branch on merge   CICD_GIT_DELETE_BRANCH_ON_MERGE__
 

@@ -1,0 +1,67 @@
+
+deploy from source to target
+
+Client -> Source
+POST <source>/api/devops/cicd/deploy
+AUTH: CI User (non admin)
+body
+{
+    "updateSetSysId": "xxxxxxxxxxxxxxxxxxxxxxxx", // the update set to be deployed
+    "commitId": "xxxxxxxxxxxxxxxxxxxxxxxx" //in case of deploy from git
+    "targetEnvironment": { // the CD user of the target environment or fallback the CI user
+        "host": "https://targethost.service-now.com",
+        "username": "",
+        "password": ""
+    },
+    "sourceEnvironment": {  // the CD user of the source environment or fallback the CI user
+        "username": "",
+        "password": ""
+    }
+}
+
+- If required create '_CICD_DEPLOYMENT_' user on source environment with random password.
+- Check source user has correct role.
+- Call target
+    Source -> Target
+    POST <target>/api/devops/cicd/pull
+    AUTH: Target CD User (admin)
+
+    body
+    {
+        updateSetSysId: updateSetSysId,
+        limitSet: limitSet.join(','), // <-- this are actually the US to be deployed
+        sourceEnvironment: sourceEnvironment,
+        gitDeployment: gitDeployment,
+        deploy: deploy,
+        sourceUrl: sourceUrl,
+        credentials: {
+            user: sourceUserName,
+            password: (sourcePassword) ? new GlideEncrypter().encrypt(sourcePassword) : null
+        }
+    }
+
+    - create sys_update_set_source if not exists (requires source credentials with admin or teamdev_user role)
+
+    RETURN:
+        {
+            sourceEnvironment: sourceEnvironment,
+            targetEnvironment: gs.getProperty('glide.servlet.uri').toLowerCase(),
+            sourceSysId: sourceSysId,
+            updateSetSysId: updateSetSysId,
+            limitSet: limitSet,
+            step: 'loadUpdateSet'
+        }
+
+RETURN 
+    303 Redirect to <target>/api/devops/cicd/deploy?<params from above>
+
+
+Client -> Target (follow redirect)
+GET: <target>/api/devops/cicd/deploy?<params>
+AUTH: Target CD user (admin)
+
+the client will now do long polling for the steps:
+    - loadUpdateSet
+    - previewUpdateSet
+    - commitUpdateSet (if not in deliver mode)
+    - deploymentComplete
