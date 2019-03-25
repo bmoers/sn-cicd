@@ -92,6 +92,39 @@ describe(jobName, function () {
         }
     });
 
+    describe('execute install()', function () {
+
+        this.timeout(0);
+        it(`${jobName} - npm dependencies do install`, function (done) {
+            const chalk = require('chalk');
+
+            console.log('run install in ', dir);
+
+            const spawn = require('child_process').spawn;
+            const child = spawn('npm.cmd', ['install'], {
+                cwd: dir,
+                detached,
+                env: {}
+            });
+            let err = '';
+            child.stderr.on('data', (data) => {
+                const line = data.toString().replace(/\n+/, '\n');
+                err += line;
+                console.error(chalk.yellow(`INSTALL: ${line}`));
+            });
+            child.stdout.on('data', (data) => {
+                console.log(chalk.magenta(`INSTALL: ${data.toString().replace(/\n+/, '\n')}`));
+            });
+            child.on('exit', function (c) {
+                if (c)
+                    return assert.equal(err, null, err);
+
+                done();
+            });
+        });
+
+    });
+
     describe('execute test()', function () {
 
         this.timeout(0);

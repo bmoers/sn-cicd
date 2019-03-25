@@ -98,6 +98,8 @@ describe(jobName, function () {
         it(`${jobName} - npm dependencies do install`, function (done) {
             const chalk = require('chalk');
 
+            console.log('run install in ', dir);
+
             const spawn = require('child_process').spawn;
             const child = spawn('npm.cmd', ['install'], {
                 cwd: dir,
