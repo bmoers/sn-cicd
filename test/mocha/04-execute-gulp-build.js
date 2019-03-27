@@ -86,7 +86,7 @@ describe(jobName, function () {
                 kill(server.pid, () => {
                     done();
                 });
-            }, 200);
+            }, 10000);
         } else {
             done();
         }
@@ -103,8 +103,7 @@ describe(jobName, function () {
             const spawn = require('child_process').spawn;
             const child = spawn('npm.cmd', ['install'], {
                 cwd: dir,
-                detached,
-                env: {}
+                detached
             });
             let err = '';
             child.stderr.on('data', (data) => {
@@ -131,7 +130,7 @@ describe(jobName, function () {
         it(`${jobName} - test must run on host ${process.env.M2_CICD_DEPLOY}`, function (done) {
             const chalk = require('chalk');
             const spawn = require('child_process').spawn;
-            const child = spawn('gulp.cmd', ['test', '--on-host', process.env.M2_CICD_DEPLOY, '--commit-id', commitId], {
+            const child = spawn('npm.cmd', ['run-script', 'build'], {
                 cwd: dir,
                 detached,
                 env: {
