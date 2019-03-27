@@ -18,7 +18,7 @@ const promiseFor = Promise.method((condition, action, value) => {
     return action(value).then(promiseFor.bind(null, condition, action));
 });
 
-const detached = false;
+const detached = false
 let server;
 let commitId;
 let dir;
@@ -86,12 +86,11 @@ describe(jobName, function () {
                 kill(server.pid, () => {
                     done();
                 });
-            }, 200);
+            }, 10000);
         } else {
             done();
         }
     });
-
 
     describe('execute install()', function () {
 
@@ -125,13 +124,13 @@ describe(jobName, function () {
 
     });
 
-    describe('execute deliver()', function () {
+    describe('execute test()', function () {
 
         this.timeout(0);
-        it(`${jobName} - deliver to ${process.env.M2_CICD_DEPLOY}`, function (done) {
+        it(`${jobName} - test must run on host ${process.env.M2_CICD_DEPLOY}`, function (done) {
             const chalk = require('chalk');
             const spawn = require('child_process').spawn;
-            const child = spawn('gulp.cmd', ['deploy', '--git', false, '--deliver-to', process.env.M2_CICD_DEPLOY, '--commit-id', commitId], {
+            const child = spawn('gulp.cmd', ['test', '--on-host', process.env.M2_CICD_DEPLOY, '--commit-id', commitId], {
                 cwd: dir,
                 detached,
                 env: {
@@ -139,9 +138,7 @@ describe(jobName, function () {
                     CICD_WEB_HTTPS_PORT: process.env.CICD_WEB_HTTPS_PORT || '',
                     CICD_WEB_HTTP_PORT: process.env.CICD_WEB_HTTP_PORT || '',
                     CICD_WEB_HOST_NAME: process.env.CICD_WEB_HOST_NAME || '',
-
-                    CICD_DELIVER_FROM: process.env.M2_CICD_SOURCE,
-                    CICD_DEPLOY_ACCESS_TOKEN: process.env.CICD_DEPLOY_ACCESS_TOKEN
+                    CICD_BUILD_ACCESS_TOKEN: process.env.CICD_BUILD_ACCESS_TOKEN || ''
                 }
             });
             let err = '';
@@ -157,54 +154,10 @@ describe(jobName, function () {
                 if (c && err)
                     return assert.equal(err, null, err);
 
-                setTimeout(() => {
-                    done();
-                }, 30000);
+                done();
             });
         });
 
     });
-
-
-    describe('execute deploy()', function () {
-
-        this.timeout(0);
-        it(`${jobName} - deploy to ${process.env.M2_CICD_DEPLOY}`, function (done) {
-            const chalk = require('chalk');
-            const spawn = require('child_process').spawn;
-            const child = spawn('gulp.cmd', ['deploy', '--git', false, '--deploy-to', process.env.M2_CICD_DEPLOY, '--commit-id', commitId], {
-                cwd: dir,
-                detached,
-                env: {
-                    CICD_GULP_HOST_FQDN: process.env.CICD_GULP_HOST_FQDN || '',
-                    CICD_WEB_HTTPS_PORT: process.env.CICD_WEB_HTTPS_PORT || '',
-                    CICD_WEB_HTTP_PORT: process.env.CICD_WEB_HTTP_PORT || '',
-                    CICD_WEB_HOST_NAME: process.env.CICD_WEB_HOST_NAME || '',
-
-                    CICD_DEPLOY_FROM: process.env.M2_CICD_SOURCE,
-                    CICD_DEPLOY_ACCESS_TOKEN: process.env.CICD_DEPLOY_ACCESS_TOKEN
-                }
-            });
-            let err = '';
-            child.stderr.on('data', (data) => {
-                const line = data.toString().replace(/\n+/, '\n');
-                err += line;
-                console.error(chalk.yellow(`GULP: ${line}`));
-            });
-            child.stdout.on('data', (data) => {
-                console.log(chalk.magenta(`GULP: ${data.toString().replace(/\n+/, '\n')}`));
-            });
-            child.on('exit', function (c) {
-                if (c && err)
-                    return assert.equal(err, null, err);
-
-                setTimeout(() => {
-                    done();
-                }, 30000);
-            });
-        });
-
-    });
-
 
 });

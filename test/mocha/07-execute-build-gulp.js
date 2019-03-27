@@ -103,8 +103,7 @@ describe(jobName, function () {
             const spawn = require('child_process').spawn;
             const child = spawn('npm.cmd', ['install'], {
                 cwd: dir,
-                detached,
-                env: {}
+                detached
             });
             let err = '';
             child.stderr.on('data', (data) => {
@@ -129,6 +128,7 @@ describe(jobName, function () {
 
         this.timeout(0);
         it(`${jobName} - gulp must run`, function (done) {
+
             const env = {
                 CICD_GULP_HOST_FQDN: process.env.CICD_GULP_HOST_FQDN || '',
                 CICD_WEB_HTTPS_PORT: process.env.CICD_WEB_HTTPS_PORT || '',
@@ -136,7 +136,7 @@ describe(jobName, function () {
                 CICD_WEB_HOST_NAME: process.env.CICD_WEB_HOST_NAME || '',
                 CICD_BUILD_ACCESS_TOKEN: process.env.CICD_BUILD_ACCESS_TOKEN || '',
                 CICD_RUN_TEST_ON_HOST: process.env.CICD_RUN_TEST_ON_HOST || ''
-            };
+            }
 
             console.log("Running gulp in dir", dir);
 
