@@ -1,28 +1,4 @@
 
-
-
-
-
-Bamboo setup
-
-CICD_GIT_PR_ENABLED=true
-CICD_GIT_DELETE_BRANCH_ON_MERGE=true
-
-
-CICD_EMBEDDED_BUILD=true
-
-CICD_CD_DEPLOY_ON_PR_RESOLVE = false
-CICD_CD_DEPLOY_ON_BUILD_PASS=false
-CICD_CD_DEPLOY_FROM_GIT=true
-
-
-issues
-- user locke if target can not connect to source
-- Using MID Server and getting No Sensors Defined
-
-
-
-
 # CICD Server for Service-Now (V3)
 
 This is the core CICD Server in version 3.\
