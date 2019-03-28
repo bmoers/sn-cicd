@@ -6,17 +6,38 @@ For an implementation example, please have a look at https://github.com/bmoers/s
 
 ## Table of contents
 
+- [About](#about)
 - [Whats New](#whats-new)
 - [Features](#features)
 - [Pull Requests](#pull-request)
 - [Slack Example](#slack-example)
 - [UI Example](#ui-example)
+- [Process Flow](#process-flow)
+    - [Invoke the CICD pipeline](#invoke_the_cicd_pipeline)
+    - [Build project](#build_project)
+    - [Pull request resolved](#pull_request_resolved)
+    - [Trigger Build](#trigger_build)
+    - [Trigger Tests](#trigger_tests)
+    - [Trigger Deliver](#trigger_deliver)
+    - [Trigger Deploy](#trigger_deploy)
+    - [Trigger Deploy/Deliver via REST call](#trigger_deploy_deliver_via_rest_call)
 - [Contribute](#contribute)
 - [Release Notes](#release-notes-(3.0.0---3.1.0))
 - [Dependencies](#project-dependencies)
 
-GULP
-gulp test --on-host dev65672.service-now.com
+## About
+The aim of this project is to CICD-enable ServiceNow. Where CICD is used heavily in professional application development these days, there is no such thing in ServiceNow out-of-the-box. As the number of projects we implemented in ServiceNow grow, as more we struggled with doing thing right. It is just too dangerous to oversee an unwanted record in an update set or not having a clue if a change would do any harm on the platform.\
+The difference between 'classic' software development and the way it works in ServiceNow is how changes are captured. In ServiceNow that's the job of an 'update set' or a 'scoped application' (see it as db row-dump in XML) - the others just use GIT for that.
+
+So how difficult must it be to extract all code inside an 'update set' into a GIT repo and send it to a CICD pipeline?
+
+Actually not very....
+
+With this CICD-Server we mimic a local developer working in its IDE and committing code to a GIT repo and pushing it to origin. Every update set is represented as a branch on which then also the build process runs (build on branch, merge to master). If the build on branch is successful, the update set is deployed to the integration ServiceNow environment (e.g. test or integrated dev).
+Have a look at the [Process Flow](#process-flow) for detailed information.
+
+As the code is now in a GIT repo, standard tools like Bamboo or Jenkins etc can be used to trigger a longer pipeline with further stages to bring changes to production. 
+
 
 ## Whats New
 #### Developers (End Users)
@@ -58,12 +79,6 @@ gulp test --on-host dev65672.service-now.com
 -	Option to extend or overwrite CICD server modules
 -	Credentials only stored on CICD server (as env. variable) no Oauth token used anymore
 
-# Process Flow
-| Step | Dev | Test | Prod |
-|------|-----|------|------|
-|      | Run CICD > |      |      |
-|      |     |      |      |
-|      |     |      |      |
 
 ## Features
 
@@ -99,6 +114,121 @@ On request (received from Service-Now) do:
 ## UI Example
 
 ![web ui example][web]
+
+
+## Process Flow
+### Invoke the CICD pipeline
+
+| Steps | Dev | Prod (master) | Code | Comment |
+| --- | --- | --- | --- | --- |
+|   | Run CICD |   |   |   |
+| Setup GIT repo on GIT host if required |   |   | lib\modules\run.js | Filter on commit message &#39;no-cicd&#39; to avoid the build to trigger. |
+| Clone GIT |   |   |   |   |
+|   |   | Extract files from prod into master branch (refresh in case changes made on prod without using this pipeline) | lib\modules\export-files-from-master.js |   |
+| Push master to GIT |   |   |   | Filter on commit message &#39;no-cicd&#39; to avoid the build to trigger. |
+| Create branch for update set if not already exists |   |   | lib\modules\export-update-set.js |   |
+| Refresh update set branch with changes made on master. |   |   | To avoid merge collision later in the process. |
+|   | Export update set XML |   |   |
+|   | Export update set files |   |   |   |
+| Configure Lint / JsDoc / ATF |   |   |   |   |
+| Push branch to GIT |   |   |   | This will cause CICD pipeline to start if build on branch is enabled. |
+| If CICD\_EMBEDDED\_BUILD is &#39;true&#39; |
+| Build the branch locally |   |   | lib\modules\build-project.js |   |
+
+
+
+### Build project
+
+| Steps | Dev (Source) | Test (Target) | Code | Comment |
+| --- | --- | --- | --- | --- |
+| Gulp Init |   |   | lib\project-templates\gulpfile.js | Get build information from server (/build/config) |
+| Gulp Lint, Doc |   |   | Lint and jsDoc results are zipped and sent to the CICD server (/build/task) |
+| Gulp Test | Run ATF suites and tests |   | lib\project-templates\atf-wrapper.js | Start hidden browser as test runner on CICD server.Send zipped mocha results to CICD server (/build/task) |
+| Gulp complete |   |   | lib\project-templates\gulpfile.js | Send build complete info to server (/build/complete). |
+| Build complete |   |   | lib\modules\build-complete.js |   |
+| If CICD\_GIT\_PR\_ENABLED is &#39;true&#39;. |
+| Raise pull request |   |   |   | Raise PR in GIT system |
+| Else If deploy target information in place and CD\_CD\_DEPLOY\_ON\_BUILD\_PASS is &#39;true&#39; |
+|   |   | Complete update set |   | Update set can now be moved |
+|   |   | Deploy to target | lib\modules\deploy-update-set.js | Deployment can be done either via update set pull from source or pull from GIT (CICD\_CD\_DEPLOY\_FROM\_GIT) |
+| Else notify via Slack build has completed |
+
+### Pull request resolved
+
+| Steps | Dev (Source) | Test (Target) | Code | Comment |
+| --- | --- | --- | --- | --- |
+| Pull request completed |   |   | lib\cicd.js | PR information coming from GIT system (/pull\_request) |
+| If pull request resolved |
+| If CICD\_GIT\_DELETE\_BRANCH\_ON\_MERGE remove local branch | Delete branch locally and remote |
+|   | Complete update set |   |   | Update set can now be moved |
+| If CICD\_CD\_DEPLOY\_ON\_PR\_RESOLVE is &#39;true&#39; |
+|   | Deploy to target |   | lib\modules\deploy-update-set.js | Deployment can be done either via update set pull from source or pull from GIT (CICD\_CD\_DEPLOY\_FROM\_GIT) |
+|   |   |   |   |   |
+
+### Trigger Build
+
+Checkout code from GIT\
+Run
+- npm install
+- gulp
+
+This will test the application on the default host (source). If configured it will also raise a pull request against master branch.
+
+### Trigger Tests
+
+Checkout code from GIT\
+Run
+- npm install
+- gulp test --commit-id &lt;commit-id&gt; --on-host &lt;test-host.service-now.com&gt;
+
+--commit-id:         the commit ID of the build
+--on-host: the         host on which the ATF test will run. If CICD\_ATF\_RUN\_ON\_PRODUCTION is &#39;false&#39; it will not allow to run on the master environment.
+
+### Trigger Deliver
+
+Checkout code from GIT\
+Run
+- npm install
+- gulp deploy --commit-id &lt;commit-id&gt; --git --deliver-to &lt;target-host.service-now.com&gt; --deliver-from &lt;source-host. service-now.com&gt;
+
+--commit-id:         the commit ID of the build
+
+--git:        if exists, update set will be taken and deployed from GIT
+
+--deliver-to:         the environment to deliver to
+
+-- deliver-from:        the environment from which to deliver. If GIT is enabled, this environment will act as a proxy to connect to GIT.
+
+###Trigger Deploy
+
+Checkout code from GIT\
+Run
+- npm install
+- gulp deploy --commit-id &lt;commit-id&gt; --git --deploy-to &lt;target-host.service-now.com&gt; --deploy-from &lt;source-host. service-now.com&gt;
+
+--commit-id:         the commit ID of the build
+
+--git:        if exists, update set will be taken and deployed from GIT
+
+--deploy-to:         the environment to deploy to
+
+--deploy-from:        the environment from which to deploy. If GIT is enabled, this environment will act as a proxy to connect to GIT.
+
+
+
+### Trigger Deploy/Deliver via REST call
+
+|  |   |
+| --- | --- |
+| Method |  POST |
+| URL | /deploy/us |
+| Header | "x-access-token": CICD_DEPLOY_ACCESS_TOKEN, "accept": "application/json" |
+| Body | ```{"commitId": <the commit ID of the build>, "from": <source-host>, "to": <target-host>, "deploy": <true = deploy|false = deliver> [false],   "git": <true = via git|false = via source> [false] } ``` |
+
+Rest client must support long polling and follow the redirects in the response header.
+
+
+
 
 ## Contribute
 
