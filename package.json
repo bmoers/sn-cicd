@@ -1,6 +1,6 @@
 {
   "name": "sn-cicd",
-  "version": "3.3.16",
+  "version": "3.3.17",
   "description": "CICD service for Service-Now",
   "main": "lib/cicd.js",
   "scripts": {
