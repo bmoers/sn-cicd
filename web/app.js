@@ -1,3 +1,22 @@
+
+function isCrossOriginFrame() {
+    try {
+        return (document.location.hostname !== window.parent.location.hostname);
+    } catch (e) {
+        return true;
+    }
+}
+if (isCrossOriginFrame()) {
+    // eslint-disable-next-line no-console
+    console.log('remove iframe');
+    try {
+        window.top.location.href = self.location.href;
+    } catch (e ){
+        // eslint-disable-next-line no-console
+        console.error(e);
+    }
+}
+
 var app = function () {
 
     var ROUTE = '/dao';
@@ -178,6 +197,9 @@ var app = function () {
 
     var getApplication = function (param, $target) {
 
+        if (!param.app)
+            return;
+
         $.ajax({
             dataType: 'json',
             url: ROUTE + '/app/' + param.app
@@ -210,10 +232,14 @@ var app = function () {
 
     var getUpdateSet = function (param, $target, layout) {
 
+        if (!param.us)
+            return;
+
         $.ajax({
             dataType: 'json',
             url: ROUTE + '/us/' + param.us
         }).done(function (data) {
+
             var config = layout || [
                 [{
                     name: 'Name',
@@ -222,8 +248,8 @@ var app = function () {
                         uri: ['/runs#/app/', {
                             field: 'appId'
                         }, '/us/', {
-                            field: '_id'
-                        }]
+                                field: '_id'
+                            }]
                     }
                 },
                 {
@@ -237,17 +263,17 @@ var app = function () {
                 }],
                 [{
                     name: 'Branch',
-                    field: 'lastSuccessfulRun.config.branchName',
+                    field: 'run.config.branchName',
                     link: {
                         uri: [{
-                            field: 'lastSuccessfulRun.config.git.branchLink'
+                            field: 'run.config.git.branchLink'
                         }],
                         target: '_blank'
                     }
                 }],
                 [{
                     name: 'Latest State',
-                    field: 'lastSuccessfulRun.state',
+                    field: 'run.state',
                     class: {
                         match: 'successful', true: 'table-success', false: 'table-danger'
                     }
@@ -255,18 +281,18 @@ var app = function () {
                     name: 'Running',
                     field: 'running',
                     class: {
-                        match: true, true: 'table-danger', false: ''
+                        match: 'YES', true: 'table-danger', false: ''
                     }
                 }],
                 (function () {
                     var row = [];
-                    if (data.lastSuccessfulRun && data.lastSuccessfulRun.build.test && data.lastSuccessfulRun.build.test.enabled !== false) {
+                    if (data.run && data.run.build.test && data.run.build.test.enabled !== false) {
                         row.push({
                             name: 'Latest Test-Results',
                             text: 'open',
                             link: {
                                 uri: ['/doc/', {
-                                    field: 'lastSuccessfulRun.dir.web'
+                                    field: 'run.dir.web'
                                 }, '/test'],
                                 target: '_blank'
                             }
@@ -278,13 +304,13 @@ var app = function () {
                             text: 'disabled'
                         });
                     }
-                    if (data.lastSuccessfulRun && data.lastSuccessfulRun.build.doc && data.lastSuccessfulRun.build.doc.enabled !== false) {
+                    if (data.run && data.run.build.doc && data.run.build.doc.enabled !== false) {
                         row.push({
                             name: 'Latest Documentation',
                             text: 'open',
                             link: {
                                 uri: ['/doc/', {
-                                    field: 'lastSuccessfulRun.dir.web'
+                                    field: 'run.dir.web'
                                 }, '/doc'],
                                 target: '_blank'
                             }
@@ -299,13 +325,13 @@ var app = function () {
                 })(),
                 (function () {
                     var row = [];
-                    if (data.lastSuccessfulRun && data.lastSuccessfulRun.build.lint && data.lastSuccessfulRun.build.lint.enabled !== false) {
+                    if (data.run && data.run.build.lint && data.run.build.lint.enabled !== false) {
                         row.push({
                             name: 'Latest Quality Report',
                             text: 'open',
                             link: {
                                 uri: ['/doc/', {
-                                    field: 'lastSuccessfulRun.dir.web'
+                                    field: 'run.dir.web'
                                 }, '/lint'],
                                 target: '_blank'
                             }
@@ -319,10 +345,10 @@ var app = function () {
                     }
                     row.push({
                         name: 'Source',
-                        field: 'lastSuccessfulRun.config.host.name',
+                        field: 'run.config.host.name',
                         link: {
                             uri: [{
-                                field: 'lastSuccessfulRun.config.host.name'
+                                field: 'run.config.host.name'
                             }, '/sys_update_set.do?sys_id=', {
                                 field: 'updateSetId'
                             }],
@@ -389,8 +415,8 @@ var app = function () {
                     uri: ['/runs#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                        field: '_id'
-                    }]
+                            field: '_id'
+                        }]
                 }
             }, {
                 name: 'UpdatedBy',
@@ -400,10 +426,10 @@ var app = function () {
                 field: 'updateSet.description'
             }, {
                 name: 'Branch',
-                field: 'lastSuccessfulRun.config.branchName'
+                field: 'run.config.branchName'
             }, {
                 name: 'State',
-                field: 'lastSuccessfulRun.state',
+                field: 'run.state',
                 class: {
                     match: 'successful', true: 'text-success', false: 'text-danger'
                 }
@@ -411,7 +437,7 @@ var app = function () {
                 name: 'Running',
                 field: 'running',
                 class: {
-                    match: true, true: 'text-danger', false: ''
+                    match: 'YES', true: 'text-danger', false: ''
                 }
             }];
 
@@ -434,8 +460,8 @@ var app = function () {
                     uri: ['/runs#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                        field: '_id'
-                    }]
+                            field: '_id'
+                        }]
                 }
             },
             {
@@ -443,6 +469,10 @@ var app = function () {
                 field: 'updateSet.sys_updated_by'
             }
             ]]);
+
+        // run details
+        if (!param.app || !param.us || !param.run)
+            return;
 
         // run details
         $.ajax({
@@ -504,8 +534,9 @@ var app = function () {
 
         getUpdateSet(param, $('#us'));
 
-        var url = ROUTE + ((param.us) ? '/app/' + param.app + '/us/' + param.us + '/run' : '/run');
+        // run details
 
+        var url = ROUTE + ((param.us) ? '/app/' + param.app + '/us/' + param.us + '/run' : '/run');
         // runs of the update-set
         $.ajax({
             dataType: 'json',
@@ -524,10 +555,10 @@ var app = function () {
                     uri: ['/steps#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                        field: 'usId'
-                    }, '/run/', {
-                        field: '_id'
-                    }]
+                            field: 'usId'
+                        }, '/run/', {
+                            field: '_id'
+                        }]
                 }
             }, {
                 name: 'ID',
@@ -604,10 +635,10 @@ var app = function () {
                     uri: ['/deployment#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                        field: 'usId'
-                    }, '/run/', {
-                        field: '_id'
-                    }]
+                            field: 'usId'
+                        }, '/run/', {
+                            field: '_id'
+                        }]
                 }
             }, {
                 name: 'ID',
@@ -666,10 +697,10 @@ var app = function () {
                     uri: ['/deployment#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                        field: 'usId'
-                    }, '/run/', {
-                        field: '_id'
-                    }]
+                            field: 'usId'
+                        }, '/run/', {
+                            field: '_id'
+                        }]
                 }
             }, {
                 name: 'ID',
@@ -720,8 +751,8 @@ var app = function () {
                     uri: ['/runs#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                        field: '_id'
-                    }]
+                            field: '_id'
+                        }]
                 }
             },
             {
@@ -731,6 +762,9 @@ var app = function () {
             ]]);
 
         // run details
+        if (!param.app || !param.us || !param.run)
+            return;
+
         $.ajax({
             dataType: 'json',
             url: ROUTE + '/app/' + param.app + '/us/' + param.us + '/run/' + param.run
