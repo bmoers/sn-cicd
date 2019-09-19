@@ -29,13 +29,14 @@
     "express-fileupload": "^0.4.0",
     "extract-zip": "^1.6.7",
     "fast-diff": "^1.2.0",
-    "figlet": "^1.2.1",
+    "figlet": "^1.2.4",
     "fs-extra": "^5.0.0",
     "gulp-git": "^2.9.0",
     "html-entities": "^1.2.1",
     "mkdirp": "^0.5.1",
     "nedb": "^1.8.0",
     "node-xml-stream-parser": "^1.0.7",
+    "nodemailer": "^6.3.0",
     "object-assign-deep": "^0.4.0",
     "puppeteer": "1.11.0",
     "request": "^2.88.0",
@@ -49,13 +50,13 @@
     "strip-ansi": "^5.2.0",
     "tmp": "^0.0.33",
     "unescape": "^1.0.1",
-    "uuid": "^3.3.2",
+    "uuid": "^3.3.3",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.1.4",
-    "nodemon": "^1.18.10",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.2",
     "tree-kill": "^1.2.1"
   },
   "directories": {
