@@ -1,7 +1,7 @@
-# 
+#
 # Generate self signed client and server certificates.
-# This is only for development purposes. 
-# 
+# This is only for development purposes.
+#
 # source.
 # https://engineering.circle.com/https-authorized-certs-with-node-js-315e548354a2
 #
