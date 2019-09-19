@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <getRecordsResponse>
+            <count>1</count>
+            <getRecordsResult>
+                <application>global</application>
+                <dv_application>Global</dv_application>
+                <base_update_set/>
+                <dv_base_update_set/>
+                <completed_by>6816f79cc0a8016401c5a33be04be441</completed_by>
+                <dv_completed_by>System Administrator</dv_completed_by>
+                <completed_on>2019-09-16 10:53:45</completed_on>
+                <dv_completed_on>2019-09-16 03:53:45</dv_completed_on>
+                <description></description>
+                <dv_description></dv_description>
+                <install_date>2019-09-16 10:53:50</install_date>
+                <dv_install_date>2019-09-16 03:53:50</dv_install_date>
+                <installed_from/>
+                <dv_installed_from></dv_installed_from>
+                <is_default>0</is_default>
+                <dv_is_default>false</dv_is_default>
+                <merged_to/>
+                <dv_merged_to/>
+                <name>CICD Integration - 1.4.1.12</name>
+                <dv_name>CICD Integration - 1.4.1.12</dv_name>
+                <origin_sys_id/>
+                <dv_origin_sys_id></dv_origin_sys_id>
+                <parent/>
+                <dv_parent/>
+                <release_date></release_date>
+                <dv_release_date></dv_release_date>
+                <remote_sys_id>684d6ea7db33fbc09775f6700f96197c</remote_sys_id>
+                <dv_remote_sys_id>CICD Integration - 1.4.1.12</dv_remote_sys_id>
+                <state>complete</state>
+                <dv_state>Complete</dv_state>
+                <sys_created_by>admin</sys_created_by>
+                <dv_sys_created_by>admin</dv_sys_created_by>
+                <sys_created_on>2019-09-16 10:53:45</sys_created_on>
+                <dv_sys_created_on>2019-09-16 03:53:45</dv_sys_created_on>
+                <sys_id>a5557e2feb77f740c6e63c4fea887efb</sys_id>
+                <dv_sys_id>a5557e2feb77f740c6e63c4fea887efb</dv_sys_id>
+                <sys_mod_count>1</sys_mod_count>
+                <dv_sys_mod_count>1</dv_sys_mod_count>
+                <sys_updated_by>admin</sys_updated_by>
+                <dv_sys_updated_by>admin</dv_sys_updated_by>
+                <sys_updated_on>2019-09-16 10:53:50</sys_updated_on>
+                <dv_sys_updated_on>2019-09-16 03:53:50</dv_sys_updated_on>
+            </getRecordsResult>
+        </getRecordsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <getRecordsResponse>
+            <count>1</count>
+            <getRecordsResult>
+                <application>8d3d2fff77702300db1a2191a910610d</application>
+                <dv_application>Problem ATF Tests</dv_application>
+                <base_update_set/>
+                <dv_base_update_set/>
+                <completed_by>6816f79cc0a8016401c5a33be04be441</completed_by>
+                <dv_completed_by>System Administrator</dv_completed_by>
+                <completed_on>2019-09-17 20:56:08</completed_on>
+                <dv_completed_on>2019-09-17 13:56:08</dv_completed_on>
+                <description/>
+                <dv_description></dv_description>
+                <install_date></install_date>
+                <dv_install_date></dv_install_date>
+                <installed_from/>
+                <dv_installed_from></dv_installed_from>
+                <is_default>0</is_default>
+                <dv_is_default>false</dv_is_default>
+                <merged_to/>
+                <dv_merged_to/>
+                <name>test update set</name>
+                <dv_name>test update set</dv_name>
+                <origin_sys_id/>
+                <dv_origin_sys_id></dv_origin_sys_id>
+                <parent/>
+                <dv_parent/>
+                <release_date></release_date>
+                <dv_release_date></dv_release_date>
+                <remote_sys_id/>
+                <dv_remote_sys_id/>
+                <state>complete</state>
+                <dv_state>Complete</dv_state>
+                <sys_created_by>admin</sys_created_by>
+                <dv_sys_created_by>admin</dv_sys_created_by>
+                <sys_created_on>2019-09-17 20:55:35</sys_created_on>
+                <dv_sys_created_on>2019-09-17 13:55:35</dv_sys_created_on>
+                <sys_id>5ca84e8ceb8c0850c6e63c4fea887e9c</sys_id>
+                <dv_sys_id>5ca84e8ceb8c0850c6e63c4fea887e9c</dv_sys_id>
+                <sys_mod_count>1</sys_mod_count>
+                <dv_sys_mod_count>1</dv_sys_mod_count>
+                <sys_updated_by>admin</sys_updated_by>
+                <dv_sys_updated_by>admin</dv_sys_updated_by>
+                <sys_updated_on>2019-09-17 20:56:08</sys_updated_on>
+                <dv_sys_updated_on>2019-09-17 13:56:08</dv_sys_updated_on>
+            </getRecordsResult>
+        </getRecordsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

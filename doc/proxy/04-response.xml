@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <getRecordsResponse>
+            <count>1</count>
+            <getRecordsResult>
+                <active>1</active>
+                <dv_active>true</dv_active>
+                <can_edit_in_studio>0</can_edit_in_studio>
+                <dv_can_edit_in_studio>false</dv_can_edit_in_studio>
+                <enforce_license>log</enforce_license>
+                <dv_enforce_license>Monitor</dv_enforce_license>
+                <js_level>helsinki_es5</js_level>
+                <dv_js_level>ES5 Standards Mode</dv_js_level>
+                <licensable>0</licensable>
+                <dv_licensable>false</dv_licensable>
+                <license_category>none</license_category>
+                <dv_license_category>Not applicable</dv_license_category>
+                <license_model>none</license_model>
+                <dv_license_model>Not applicable</dv_license_model>
+                <logo/>
+                <dv_logo></dv_logo>
+                <name>Problem ATF Tests</name>
+                <dv_name>Problem ATF Tests</dv_name>
+                <private>0</private>
+                <dv_private>false</dv_private>
+                <restrict_table_access>0</restrict_table_access>
+                <dv_restrict_table_access>false</dv_restrict_table_access>
+                <runtime_access_tracking>permissive</runtime_access_tracking>
+                <dv_runtime_access_tracking>Tracking</dv_runtime_access_tracking>
+                <scope>sn_problem_atf</scope>
+                <dv_scope>sn_problem_atf</dv_scope>
+                <scoped_administration>0</scoped_administration>
+                <dv_scoped_administration>false</dv_scoped_administration>
+                <short_description/>
+                <dv_short_description></dv_short_description>
+                <source>sn_problem_atf</source>
+                <dv_source>sn_problem_atf</dv_source>
+                <sys_class_name>sys_store_app</sys_class_name>
+                <dv_sys_class_name>Store Application</dv_sys_class_name>
+                <sys_created_by>admin</sys_created_by>
+                <dv_sys_created_by>admin</dv_sys_created_by>
+                <sys_created_on>2018-10-04 10:16:49</sys_created_on>
+                <dv_sys_created_on>2018-10-04 03:16:49</dv_sys_created_on>
+                <sys_id>8d3d2fff77702300db1a2191a910610d</sys_id>
+                <dv_sys_id>8d3d2fff77702300db1a2191a910610d</dv_sys_id>
+                <sys_mod_count>2</sys_mod_count>
+                <dv_sys_mod_count>2</dv_sys_mod_count>
+                <sys_updated_by>system</sys_updated_by>
+                <dv_sys_updated_by>system</dv_sys_updated_by>
+                <sys_updated_on>2019-01-18 00:56:21</sys_updated_on>
+                <dv_sys_updated_on>2019-01-17 16:56:21</dv_sys_updated_on>
+                <template/>
+                <dv_template/>
+                <trackable>1</trackable>
+                <dv_trackable>true</dv_trackable>
+                <vendor/>
+                <dv_vendor></dv_vendor>
+                <vendor_prefix/>
+                <dv_vendor_prefix></dv_vendor_prefix>
+                <version>1.0.0</version>
+                <dv_version>1.0.0</dv_version>
+            </getRecordsResult>
+        </getRecordsResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
