@@ -88,7 +88,7 @@ describe(path.basename(__filename).split('.')[0], function () {
                         "requestor": {
                             "userName": "Boris.Moers",
                             "fullName": "Boris Moers",
-                            "email": "boris.moers@gmail.com"
+                            "email": process.env.M02_CICD_EMAIL
                         }
                     },
                     "atf": {

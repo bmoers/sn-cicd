@@ -29,7 +29,7 @@ const promiseFor = Promise.method((condition, action, value) => {
 
 
 let server;
-const detached = false
+const detached = true
 describe(path.basename(__filename).split('.')[0], function () {
 
     before(function (done) {
@@ -88,7 +88,7 @@ describe(path.basename(__filename).split('.')[0], function () {
                         "requestor": {
                             "userName": "Boris.Moers",
                             "fullName": "Boris Moers",
-                            "email": "boris.moers@gmail.com"
+                            "email": process.env.M02_CICD_EMAIL
                         }
                     },
                     "atf": {
