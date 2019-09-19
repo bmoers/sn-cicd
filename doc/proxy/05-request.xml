@@ -1,0 +1,26 @@
+<!--
+
+POST /sys_update_xml.do?SOAP&displayvalue=all&redirectSupported=true
+
+-->
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <getKeys xmlns="http://www.service-now.com">
+            <__order_by>sys_updated_on</__order_by>
+            <update_set>a5557e2feb77f740c6e63c4fea887efb</update_set>
+            <__attributes>
+                <__attribute>
+                    <name>getkeys_direct</name>
+                    <value>true</value>
+                </__attribute>
+                <__attribute>
+                    <name>emit_count</name>
+                    <value>true</value>
+                </__attribute>
+            </__attributes>
+        </getKeys>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -1,0 +1,24 @@
+<!--
+
+    POST sys_properties.do?SOAP&displayvalue=all&redirectSupported=true
+-->
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <getKeys xmlns="http://www.service-now.com">
+            <name>instance_id</name>
+            <__attributes>
+                <__attribute>
+                    <name>getkeys_direct</name>
+                    <value>true</value>
+                </__attribute>
+                <__attribute>
+                    <name>emit_count</name>
+                    <value>true</value>
+                </__attribute>
+            </__attributes>
+        </getKeys>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

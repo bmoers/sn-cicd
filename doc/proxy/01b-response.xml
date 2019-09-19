@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <SOAP-ENV:Body>
+        <getKeysResponse>
+            <count>1</count>
+            <sys_id>438a27e78002230065177a4cb39b437e</sys_id>
+        </getKeysResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

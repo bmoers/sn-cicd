@@ -1,0 +1,3 @@
+/*
+GET /hub.do?method=instance_properties
+*/
