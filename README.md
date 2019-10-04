@@ -1,8 +1,8 @@
 
-# CICD Server for Service-Now (V3)
+# CICD Server for Service-Now (V4)
 
-This is the core CICD Server in version 3.\
-For an implementation example, please have a look at https://github.com/bmoers/sn-cicd-example-v3.
+This is the core CICD Server in version 4.\
+For an implementation example, please have a look at https://github.com/bmoers/sn-cicd-example/tree/release/4.
 
 ## Table of contents
 
@@ -13,14 +13,14 @@ For an implementation example, please have a look at https://github.com/bmoers/s
 - [Slack Example](#slack-example)
 - [UI Example](#ui-example)
 - [Process Flow](#process-flow)
-    - [Invoke the CICD pipeline](#invoke_the_cicd_pipeline)
-    - [Build project](#build_project)
-    - [Pull request resolved](#pull_request_resolved)
-    - [Trigger Build](#trigger_build)
-    - [Trigger Tests](#trigger_tests)
-    - [Trigger Deliver](#trigger_deliver)
-    - [Trigger Deploy](#trigger_deploy)
-    - [Trigger Deploy/Deliver via REST call](#trigger_deploy_deliver_via_rest_call)
+    - [Invoke the CICD pipeline](#invoke-the-cicd-pipeline)
+    - [Build project](#build-project)
+    - [Pull request resolved](#pull-request-resolved)
+    - [Trigger Build](#trigger-build)
+    - [Trigger Tests](#trigger-tests)
+    - [Trigger Deliver](#trigger-deliver)
+    - [Trigger Deploy](#trigger-deploy)
+    - [Trigger Deploy/Deliver via REST call](#trigger-deploydeliver-via-rest-call)
 - [Contribute](#contribute)
 - [Dependencies](#project-dependencies)
 
