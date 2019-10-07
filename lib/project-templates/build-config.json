@@ -1,5 +1,5 @@
 {
-    "files" : [
+    "files": [
         {
             "source": "atf-wrapper.js",
             "target": "test/atf-wrapper.js"
@@ -7,19 +7,23 @@
         {
             "source": "gulpfile.js",
             "target": "gulpfile.js"
-        }, 
+        },
         {
             "source": "package.json",
             "target": "package.json"
+        },
+        {
+            "source": "package-lock.json",
+            "target": "package-lock.json"
         }
     ],
-    "gulp":{
+    "gulp": {
         "init": {
             "breakOnError": true
         },
-        "lint" : {
+        "lint": {
             "breakOnError": false,
-            "enabled" : true,
+            "enabled": true,
             "files": [],
             "config": {
                 "fix": true,
@@ -53,11 +57,38 @@
                 },
                 "globals": [
                     "jQuery",
-                    "$", "sn_ws_err",
-                    "gs", "sn_ws", "Class", "GlideDateTime", "GlideRecord", "GlideProperties",
-                    "GlideAggregate", "GlideFilter", "GlideTableHierarchy", "TableUtils", "JSON", "Packages", "g_form", "current", "previous",
-                    "g_navigation", "g_document", "GlideDialogWindow", "GlideAjax", "gel", "request", "response", "parent", "angular", "$j", "action", "g_list",
-                    "GlideModal", "GwtMessage", "g_i18n"
+                    "$",
+                    "sn_ws_err",
+                    "gs",
+                    "sn_ws",
+                    "Class",
+                    "GlideDateTime",
+                    "GlideRecord",
+                    "GlideProperties",
+                    "GlideAggregate",
+                    "GlideFilter",
+                    "GlideTableHierarchy",
+                    "TableUtils",
+                    "JSON",
+                    "Packages",
+                    "g_form",
+                    "current",
+                    "previous",
+                    "g_navigation",
+                    "g_document",
+                    "GlideDialogWindow",
+                    "GlideAjax",
+                    "gel",
+                    "request",
+                    "response",
+                    "parent",
+                    "angular",
+                    "$j",
+                    "action",
+                    "g_list",
+                    "GlideModal",
+                    "GwtMessage",
+                    "g_i18n"
                 ],
                 "envs": [
                     "node",
