@@ -13,7 +13,7 @@
             "target": "package.json"
         },
         {
-            "source": "package-lock.json",
+            "source": "package.lock.json",
             "target": "package-lock.json"
         }
     ],
