@@ -1,0 +1,28 @@
+use admin
+db.createUser(
+  {
+    user: "admin",
+    pwd: "secret",
+    roles: [ { role: "userAdminAnyDatabase", db: "admin" }, "readWriteAnyDatabase" ]
+  }
+)
+
+db.auth("admin", "secret")
+
+use cicd
+db.createUser(
+  {
+    user: "cicd-user",
+    pwd:  "secret",
+    roles: [ { role: "readWrite", db: "cicd" }]
+  }
+)
+
+use example
+db.createUser(
+  {
+    user: "cicd-user",
+    pwd:  "secret",
+    roles: [ { role: "readWrite", db: "example" }]
+  }
+)
