@@ -44,7 +44,7 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "serve-static": "^1.13.2",
-    "sn-project": "file:../sn-project",
+    "sn-project": "github:bmoers/sn-project#semver:^3.13.0",
     "sn-rest-client": "github:bmoers/sn-rest-client#semver:^2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
