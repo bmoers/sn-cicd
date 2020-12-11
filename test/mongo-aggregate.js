@@ -14,14 +14,22 @@ const mongoDao = require('../lib/prototype/mongo-dao').call({
   }
 });
 
-return Promise.try(() => {
+return Promise.try(async () => {
 
-  return mongoDao.deployment.find({}, (query) => {
-    return query.sort({ ts: -1 });
-  },
+  const a = await mongoDao.deployment.find({},
     (query) => {
-    return query.limit(1);
+      return query.sort({ ts: -1 });
+    },
+    (query) => {
+      return query.limit(1);
     });
-}).then((runList) => {
-  console.log(runList);
-})
+
+  const b = await mongoDao.deployment.find({},
+    (query) => {
+      return query.sort({ ts: -1 }).limit(1);
+    });
+
+  console.log(a.length == b.length);
+  console.log(a[0]._id == b[0]._id)
+
+});
