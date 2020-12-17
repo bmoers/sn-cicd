@@ -30,21 +30,25 @@ const nedbDao = require('../lib/prototype/dao').call({
 });
 
 
-return Promise.try(() => {
+return Promise.try(async () => {
 
-  return nedbDao.run.insert({
+  const a = await nedbDao.run.insert({
     mergedTs: new Date(),
     ts: new Date()
   });
-}).then((i) => {
-  console.log(i);
-}).then(() => {
-
-  return nedbDao.run.insert({
+  
+  const b = await nedbDao.run.insert({
     mergedTs: Date.now(),
     ts: Date.now()
   });
 
-}).then((i) => {
-  console.log(i);
+  const doc =      await nedbDao.run.find({mergedTs: {$ne: {$type: 9}}, _id : {$in : [a._id, b._id]}});
+  
+  console.log(doc.length);
+  
+
+  const allDoc =      await nedbDao.run.find({mergedTs: {$ne: {$type: 9}}});
+  
+  console.log(allDoc.length);
+  
 })
