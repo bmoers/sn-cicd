@@ -46,7 +46,7 @@
     "serve-static": "^1.13.2",
     "sn-project": "github:bmoers/sn-project#semver:^3.13.0",
     "sn-rest-client": "github:bmoers/sn-rest-client#semver:^2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.3.0",
     "split": "^1.0.1",
     "split2": "^3.2.2",
