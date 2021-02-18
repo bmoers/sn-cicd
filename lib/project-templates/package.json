@@ -28,7 +28,12 @@
 		"uuid": "^8.3.2"
 	},
 	"scripts": {
-		"build": "gulp",
-		"deploy": "gulp deploy"
+		"gulp": "gulp",
+		"help": "gulp help",
+		"build": "gulp build",
+		"deploy": "gulp deploy",
+		"test": "gulp test",
+		"testApp": "gulp testApp",
+		"artifact": "gulp artifact"
 	}
 }
