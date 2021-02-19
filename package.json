@@ -80,7 +80,7 @@
   },
   "homepage": "https://github.com/bmoers/sn-cicd#readme",
   "engines": {
-    "node": "<=11.15.0",
+    "node": ">=11.15.0",
     "npm": ">=6.0.0"
   }
 }
