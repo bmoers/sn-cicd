@@ -25,7 +25,7 @@
 		"request": "^2.88.0",
 		"request-promise": "^4.2.2",
 		"semver": "^7.3.4",
-		"sn-project": "github:bmoers/sn-project#semver:^3",
+		"sn-project": "^3.13.2",
 		"uuid": "^8.3.2"
 	},
 	"scripts": {
