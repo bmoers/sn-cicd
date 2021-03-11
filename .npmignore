@@ -60,10 +60,22 @@ typings/
 .vscode
 develop
 dev
-/vscodeignore
-/eslintrc.json
-/.eslintrc.js
+vscodeignore
+eslintrc.json
+.eslintrc.js
 /jsconfig.json
 
 /db
 *.db
+
+# in addition to .gitignore
+/lib/project-templates/node_modules
+test/
+res/
+cert/setup/
+doc/
+
+example*
+ecosystem*
+*.env
+*.env*
