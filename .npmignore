@@ -79,3 +79,4 @@ example*
 ecosystem*
 *.env
 *.env*
+.github
