@@ -1,6 +1,6 @@
 name: Publish Node.js Package
 on:
-  # workflow_dispatch:
+  workflow_dispatch:
   push:
     tags:
       - '*'
