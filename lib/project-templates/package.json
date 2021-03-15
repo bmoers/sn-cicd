@@ -24,7 +24,7 @@
 		"request": "^2.88.0",
 		"request-promise": "^4.2.2",
 		"semver": "^7.3.4",
-		"sn-project": "^3.13.2",
+		"sn-project": "^3.14.0",
 		"uuid": "^8.3.2"
 	},
 	"scripts": {
