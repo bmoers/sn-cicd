@@ -1,4 +1,3 @@
-
 # CICD Server for Service-Now (V4)
 
 This is the core CICD Server in version 4.\
@@ -13,18 +12,20 @@ For an implementation example, please have a look at https://github.com/bmoers/s
 - [Slack Example](#slack-example)
 - [UI Example](#ui-example)
 - [Process Flow](#process-flow)
-    - [Invoke the CICD pipeline](#invoke-the-cicd-pipeline)
-    - [Build project](#build-project)
-    - [Pull request resolved](#pull-request-resolved)
-    - [Trigger Build](#trigger-build)
-    - [Trigger Tests](#trigger-tests)
-    - [Trigger Deliver](#trigger-deliver)
-    - [Trigger Deploy](#trigger-deploy)
-    - [Trigger Deploy/Deliver via REST call](#trigger-deploydeliver-via-rest-call)
+  - [Invoke the CICD pipeline](#invoke-the-cicd-pipeline)
+  - [Build project](#build-project)
+  - [Pull request resolved](#pull-request-resolved)
+  - [Trigger Build](#trigger-build)
+  - [Trigger Tests](#trigger-tests)
+  - [Trigger Deliver](#trigger-deliver)
+  - [Trigger Deploy](#trigger-deploy)
+  - [Trigger Deploy/Deliver via REST call](#trigger-deploydeliver-via-rest-call)
+- [System Properties](#system-properties)
 - [Contribute](#contribute)
 - [Dependencies](#project-dependencies)
 
 ## About
+
 The aim of this project is to CICD-enable ServiceNow. Where CICD is used heavily in professional application development these days, there is no such thing in ServiceNow out-of-the-box. As the number of projects we implemented in ServiceNow grow, as more we struggled with doing thing right. It is just too dangerous to oversee an unwanted record in an update set or not having a clue if a change would do any harm on the platform.\
 The difference between 'classic' software development and the way it works in ServiceNow is how changes are captured. In ServiceNow that's the job of an 'update set' or a 'scoped application' (see it as db row-dump in XML) - the others just use GIT for that.
 
@@ -35,49 +36,49 @@ Actually not very....
 With this CICD-Server we mimic a local developer working in its IDE and committing code to a GIT repo and pushing it to origin. Every update set is represented as a branch on which then also the build process runs (build on branch, merge to master). If the build on branch is successful, the update set is deployed to the integration ServiceNow environment (e.g. test or integrated dev).
 Have a look at the [Process Flow](#process-flow) for detailed information.
 
-As the code is now in a GIT repo, standard tools like Bamboo or Jenkins etc can be used to trigger a longer pipeline with further stages to bring changes to production. 
-
+As the code is now in a GIT repo, standard tools like Bamboo or Jenkins etc can be used to trigger a longer pipeline with further stages to bring changes to production.
 
 ## Whats New
-#### Developers (End Users)
+
+### Developers (End Users)
+
 - Deploy update set from git repo
-    - extract the code from the XML saved to git instead from the source environment
+  - extract the code from the XML saved to git instead from the source environment
 - Run CICD on scoped apps
-    - automatically create an update set containing the complete scoped app and send it to the pipeline
+  - automatically create an update set containing the complete scoped app and send it to the pipeline
 - All changes are now exported to GIT
-    - Fields containing JavaScript are still created as .js files
-    - All other files / fields are exported as JSON
-    - No 'empty pull request' anymore
--	The Update-Set, on which the CICD process runs, is also exported
--	Branches are automatically deleted on pull request merge
--	SSL support for portal
--	New Jobs Dashboard to display progress
--	More detailed 'build run' log
+  - Fields containing JavaScript are still created as .js files
+  - All other files / fields are exported as JSON
+  - No 'empty pull request' anymore
+- The Update-Set, on which the CICD process runs, is also exported
+- Branches are automatically deleted on pull request merge
+- SSL support for portal
+- New Jobs Dashboard to display progress
+- More detailed 'build run' log
 
+### Platform
 
-#### Platform
 - Pull request proxy
-    - route PR information from public git repo to CICD server
+  - route PR information from public git repo to CICD server
 - REST API endpoints to integrate with standard build tools
-    - trigger ATF test or deployment
+  - trigger ATF test or deployment
 - Use of scripted REST API to interact with ServiceNow 
-    - [sn-cicd-integration (Global Scoped App)](https://github.com/bmoers/sn-cicd-integration)
--   Message-Queue driven Master/Worker architecture
-    - Easy to scale up by adding additional workers (on local- or remote server)
--	ATF runs as worker job on server (and not anymore on build process/build tool)
--	Support for external build tool
-    - Use CICD Server to extract code from ServiceNow and run a pipeline on e.g. Bamboo
-    - Build results are automatically sent from build process (remote) to CICD server
--	Gulp tasks now configurable
-    - Allow to modify and extend build stages
--	Better automated conflict detection on GIT merge
-    -   Can be extended to inform about 'last commit wins' issues
--	Null value support for empty fields
-    -	ServiceNow sometimes treats null as empty or empty as null, to avoid displaying unrelated changes in GIT empty is treated as null
--	Project DB (filesystem meta information) now in server and not in project
--	Option to extend or overwrite CICD server modules
--	Credentials only stored on CICD server (as env. variable) no Oauth token used anymore
-
+  - [sn-cicd-integration (Global Scoped App)](https://github.com/bmoers/sn-cicd-integration)
+- Message-Queue driven Master/Worker architecture
+  - Easy to scale up by adding additional workers (on local- or remote server)
+- ATF runs as worker job on server (and not anymore on build process/build tool)
+- Support for external build tool
+  - Use CICD Server to extract code from ServiceNow and run a pipeline on e.g. Bamboo
+  - Build results are automatically sent from build process (remote) to CICD server
+- Gulp tasks now configurable
+  - Allow to modify and extend build stages
+- Better automated conflict detection on GIT merge
+  - Can be extended to inform about 'last commit wins' issues
+- Null value support for empty fields
+  - ServiceNow sometimes treats null as empty or empty as null, to avoid displaying unrelated changes in GIT empty is treated as null
+- Project DB (filesystem meta information) now in server and not in project
+- Option to extend or overwrite CICD server modules
+- Credentials only stored on CICD server (as env. variable) no Oauth token used anymore
 
 ## Features
 
@@ -114,8 +115,8 @@ On request (received from Service-Now) do:
 
 ![web ui example][web]
 
-
 ## Process Flow
+
 ### Invoke the CICD pipeline
 
 | Steps | Dev | Prod (master) | Code | Comment |
@@ -133,8 +134,6 @@ On request (received from Service-Now) do:
 | Push branch to GIT |   |   |   | This will cause CICD pipeline to start if build on branch is enabled. |
 | If CICD\_EMBEDDED\_BUILD is &#39;true&#39; |
 | Build the branch locally |   |   | lib\modules\build-project.js |   |
-
-
 
 ### Build project
 
@@ -168,6 +167,7 @@ On request (received from Service-Now) do:
 
 Checkout code from GIT\
 Run
+
 - npm install
 - gulp
 
@@ -177,6 +177,7 @@ This will test the application on the default host (source). If configured it wi
 
 Checkout code from GIT\
 Run
+
 - npm install
 - gulp test --commit-id &lt;commit-id&gt; --on-host &lt;test-host.service-now.com&gt;
 
@@ -187,6 +188,7 @@ Run
 
 Checkout code from GIT\
 Run
+
 - npm install
 - gulp deploy --commit-id &lt;commit-id&gt; --git --deliver-to &lt;target-host.service-now.com&gt; --deliver-from &lt;source-host. service-now.com&gt;
 
@@ -202,6 +204,7 @@ Run
 
 Checkout code from GIT\
 Run
+
 - npm install
 - gulp deploy --commit-id &lt;commit-id&gt; --git --deploy-to &lt;target-host.service-now.com&gt; --deploy-from &lt;source-host. service-now.com&gt;
 
@@ -212,8 +215,6 @@ Run
 --deploy-to:         the environment to deploy to
 
 --deploy-from:        the environment from which to deploy. If GIT is enabled, this environment will act as a proxy to connect to GIT.
-
-
 
 ### Trigger Deploy/Deliver via REST call
 
@@ -226,8 +227,14 @@ Run
 
 Rest client must support long polling and follow the redirects in the response header.
 
+## System Properties
 
+Git clone might run long on large GIT repos and deployments time out. To avoid consider following settings:
 
+- glide.http.outbound.max_timeout.enabled=false
+- glide.rest.outbound.ecc_response.timeout=300
+
+More information about REST calls via MID server can be found here [KB0694711](https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB0694711)
 
 ## Contribute
 
