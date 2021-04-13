@@ -37,7 +37,7 @@ describe(path.basename(__filename).split('.')[0], function () {
     before(function (done) {
         this.timeout(0);
         Promise.try(() => {
-            const path = require("path");
+            const path = require('path');
             return fs.emptydir(path.join(process.cwd(), 'db'));
         }).then(() => {
 
@@ -85,13 +85,13 @@ describe(path.basename(__filename).split('.')[0], function () {
                 url: `${HOST}`,
                 json: false
             }).then(() => {
-                assert.equal("running", "running");
+                assert.equal('running', 'running');
             }).catch((e) => {
                 console.log(e.error);
-                console.log(e.message)
+                console.log(e.message);
                 assert.equal(e.error, null);
 
-            })
+            });
 
         });
 

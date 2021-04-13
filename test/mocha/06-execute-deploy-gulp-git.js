@@ -49,7 +49,7 @@ describe(jobName, function() {
             };
 
             const Datastore = require('nedb');
-            const path = require("path");
+            const path = require('path');
 
             Object.keys(db).forEach((collection) => {
                 const coll = new Datastore({
@@ -72,7 +72,7 @@ describe(jobName, function() {
             }).delay(9000000).then(() => {
 
                 done();
-            })
+            });
         });
     });
 

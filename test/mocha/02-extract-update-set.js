@@ -29,7 +29,7 @@ const promiseFor = Promise.method((condition, action, value) => {
 
 
 let server;
-const detached = true
+const detached = true;
 describe(path.basename(__filename).split('.')[0], function () {
 
     before(function (done) {
@@ -85,29 +85,29 @@ describe(path.basename(__filename).split('.')[0], function () {
                 json: true,
                 body: {
                     build: {
-                        "requestor": {
-                            "userName": "Boris.Moers",
-                            "fullName": "Boris Moers",
-                            "email": process.env.M02_CICD_EMAIL
+                        'requestor': {
+                            'userName': 'Boris.Moers',
+                            'fullName': 'Boris Moers',
+                            'email': process.env.M02_CICD_EMAIL
                         }
                     },
-                    "atf": {
-                        "name": process.env.CICD_ATF_TEST_USER_NAME,
-                        "updateSetOnly": false
+                    'atf': {
+                        'name': process.env.CICD_ATF_TEST_USER_NAME,
+                        'updateSetOnly': false
                     },
-                    "updateSet": process.env.M02_CICD_TEST_US_ID,
-                    "application": {
-                        "id": process.env.M02_CICD_TEST_APP_ID,
-                        "name": process.env.M02_CICD_TEST_APP_NAME
+                    'updateSet': process.env.M02_CICD_TEST_US_ID,
+                    'application': {
+                        'id': process.env.M02_CICD_TEST_APP_ID,
+                        'name': process.env.M02_CICD_TEST_APP_NAME
                     },
-                    "git": {
-                        "repository": process.env.M2_CICD_TEST_REPO
+                    'git': {
+                        'repository': process.env.M2_CICD_TEST_REPO
                     },
-                    "host": {
-                        "name": process.env.M2_CICD_SOURCE
+                    'host': {
+                        'name': process.env.M2_CICD_SOURCE
                     },
                     _master: {
-                        name: "master",
+                        name: 'master',
                         host: {
                             name: process.env.M2_CICD_MASTER
                         },
@@ -124,11 +124,11 @@ describe(path.basename(__filename).split('.')[0], function () {
             }).then((result) => {
                 //console.log("run() result", result);
                 exeResponse = result;
-                assert.equal(exeResponse.run, "added-to-queue");
+                assert.equal(exeResponse.run, 'added-to-queue');
             }).catch((e) => {
-                console.error(e)
+                console.error(e);
                 throw e;
-            })
+            });
         });
 
         it('job must be in to queue', function () {
@@ -143,9 +143,9 @@ describe(path.basename(__filename).split('.')[0], function () {
             }).then((result) => {
                 queueResponse = result;
                 //console.log('job must be in to queue', result);
-                assert.equal(queueResponse.status, "background-in-progress");
+                assert.equal(queueResponse.status, 'background-in-progress');
             }).catch((e) => {
-                console.error(e)
+                console.error(e);
                 throw e;
             });
         });
@@ -162,27 +162,27 @@ describe(path.basename(__filename).split('.')[0], function () {
                 // create a new copy of the defaults client
                 return rp(options).then((result) => {
                     //console.log('job completed', result);
-                    if (result.status == "background-in-progress") {
+                    if (result.status == 'background-in-progress') {
                         console.log('Wait', WAIT_DELAY_MS);
                         return Promise.delay(WAIT_DELAY_MS).then(() => {
                             return options;
                         });
                     } else {
-                        completeResponse = result
+                        completeResponse = result;
                         return null;
                     }
                 });
             }, {
-                    followRedirect: false,
-                    strictSSL: false,
-                    method: 'GET',
-                    url: `${HOST}${exeResponse.status}`,
-                    json: true
-                }
+                followRedirect: false,
+                strictSSL: false,
+                method: 'GET',
+                url: `${HOST}${exeResponse.status}`,
+                json: true
+            }
             ).then(() => {
-                assert.equal(completeResponse.status, "complete");
+                assert.equal(completeResponse.status, 'complete');
             }).catch((e) => {
-                console.error(e)
+                console.error(e);
                 throw e;
             });
         });

@@ -49,7 +49,7 @@ describe(jobName, function () {
             };
 
             const Datastore = require('nedb');
-            const path = require("path");
+            const path = require('path');
 
             Object.keys(db).forEach((collection) => {
                 const coll = new Datastore({
@@ -71,7 +71,7 @@ describe(jobName, function () {
 
             }).then(() => {
                 done();
-            })
+            });
         });
     });
 
@@ -136,9 +136,9 @@ describe(jobName, function () {
                 CICD_WEB_HOST_NAME: process.env.CICD_WEB_HOST_NAME || '',
                 CICD_BUILD_ACCESS_TOKEN: process.env.CICD_BUILD_ACCESS_TOKEN || '',
                 CICD_RUN_TEST_ON_HOST: process.env.CICD_RUN_TEST_ON_HOST || ''
-            }
+            };
 
-            console.log("Running gulp in dir", dir);
+            console.log('Running gulp in dir', dir);
 
             const chalk = require('chalk');
             const spawn = require('child_process').spawn;
