@@ -20,7 +20,7 @@ const CICD = require('./lib/cicd');
 
         await Promise.delay(5000);
 
-        console.error('Server startup OK, exit.');
+        console.info('Server startup OK, exit.');
         process.exit(0);
     } catch (e) {
         console.error('Server startup failed', e);
