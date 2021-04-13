@@ -223,7 +223,7 @@ Run
 | Method |  POST |
 | URL | /deploy/us |
 | Header | "x-access-token": CICD_DEPLOY_ACCESS_TOKEN, "accept": "application/json" |
-| Body | ```{"commitId": <the commit ID of the build>, "from": <source-host>, "to": <target-host>, "deploy": <true = deploy|false = deliver> [false],   "git": <true = via git|false = via source> [false] } ``` |
+| Body | ```{"commitId": <the commit ID of the build>, "from": <source-host>, "to": <target-host>, "deploy": <true = deploy\| false = deliver> [false],   "git": <true = via git \| false = via source> [false] }```  |
 
 Rest client must support long polling and follow the redirects in the response header.
 
