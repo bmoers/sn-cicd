@@ -14,9 +14,9 @@ return puppeteer.launch({
             width: 1400,
             height: 1600
         }).then(() => {
-            return page.goto(`http://google.com`, {
+            return page.goto('http://google.com', {
                 waitUntil: 'networkidle2'
             });
         });
     });
-})
+});

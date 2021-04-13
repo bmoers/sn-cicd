@@ -10,7 +10,7 @@ const CICD = require('./lib/cicd');
 
         const cicd = new CICD();
 
-        await cicd.start()
+        await cicd.start();
         console.log('-----------------------------------------------');
         console.log('Server Started');
 

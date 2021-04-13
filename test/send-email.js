@@ -17,15 +17,15 @@ const getTransporter = function () {
         options.auth = {
             user: process.env.CICD_EMAIL_USER_NAME,
             pass: process.env.CICD_EMAIL_USER_PASSWORD
-        }
+        };
     }
 
     return nodemailer.createTransport(options);
-}
+};
 const text = function (recipient, subject, message) {
     return Promise.try(() => {
         if (process.env.CICD_EMAIL_ENABLED !== 'true') {
-            console.warn('Email notification is disabled. Following message was not sent:', recipient, subject, message)
+            console.warn('Email notification is disabled. Following message was not sent:', recipient, subject, message);
             return;
         }
         return getTransporter().sendMail({
@@ -37,10 +37,10 @@ const text = function (recipient, subject, message) {
             console.error('Email notification error:', e);
         });
     });
-}
+};
 
 text(process.env.TEST_MAIL_FORM, 'subject', 'message').then((s) => {
-    console.log(s)
+    console.log(s);
 }).catch((e) => {
-    console.error(e)
+    console.error(e);
 });

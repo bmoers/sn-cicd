@@ -27,7 +27,7 @@ const promiseFor = Promise.method((condition, action, value) => {
     return action(value).then(promiseFor.bind(null, condition, action));
 });
 
-const detached = false
+const detached = false;
 let server;
 let commitId;
 
@@ -58,7 +58,7 @@ describe(jobName, function () {
             };
 
             const Datastore = require('nedb');
-            const path = require("path");
+            const path = require('path');
 
             Object.keys(db).forEach((collection) => {
                 const coll = new Datastore({
@@ -80,7 +80,7 @@ describe(jobName, function () {
 
             }).then(() => {
                 done();
-            })
+            });
 
         });
     });
@@ -120,14 +120,14 @@ describe(jobName, function () {
                 resolveWithFullResponse: true
             }).then((response) => {
                 testResponse = response.headers.location;
-                console.log('1 testResponse', testResponse)
+                console.log('1 testResponse', testResponse);
                 assert.equal(response.statusCode, 202);
             }).catch((e) => {
                 console.log(e.error);
-                console.log(e.message)
+                console.log(e.message);
                 assert.equal(e, null);
 
-            })
+            });
         });
 
         it(`${jobName} - job completed`, function () {
@@ -138,7 +138,7 @@ describe(jobName, function () {
                 gzip: true,
                 strictSSL: false,
                 proxy: false,
-                encoding: "utf8",
+                encoding: 'utf8',
                 headers: {
                     'x-access-token': process.env.CICD_BUILD_ACCESS_TOKEN
                 }
@@ -187,17 +187,17 @@ describe(jobName, function () {
                         }
                     });
             }, {
-                    followRedirect: false,
-                    strictSSL: false,
-                    method: 'GET',
-                    url: `${testResponse}`,
-                    json: true,
-                    resolveWithFullResponse: true,
-                    headers: { 'x-access-token': process.env.CICD_BUILD_ACCESS_TOKEN },
-                }
+                followRedirect: false,
+                strictSSL: false,
+                method: 'GET',
+                url: `${testResponse}`,
+                json: true,
+                resolveWithFullResponse: true,
+                headers: { 'x-access-token': process.env.CICD_BUILD_ACCESS_TOKEN },
+            }
             ).then(() => {
                 console.log('response body', body);
-                assert.equal(body.state, "complete");
+                assert.equal(body.state, 'complete');
             });
         });
 

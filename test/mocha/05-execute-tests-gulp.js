@@ -18,7 +18,7 @@ const promiseFor = Promise.method((condition, action, value) => {
     return action(value).then(promiseFor.bind(null, condition, action));
 });
 
-const detached = false
+const detached = false;
 let server;
 let commitId;
 let dir;
@@ -49,7 +49,7 @@ describe(jobName, function () {
             };
 
             const Datastore = require('nedb');
-            const path = require("path");
+            const path = require('path');
 
             Object.keys(db).forEach((collection) => {
                 const coll = new Datastore({
@@ -71,7 +71,7 @@ describe(jobName, function () {
 
             }).then(() => {
                 done();
-            })
+            });
         });
     });
 

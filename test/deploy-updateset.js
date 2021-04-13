@@ -51,7 +51,7 @@ snClient.deployUpdateSet({
     console.log('name', e.name);
     console.log('message', e.message);
     console.log('update-set', e.updateSet);
-    console.log(Object.keys(e))
+    console.log(Object.keys(e));
     console.dir(e, { colors: true, depth: null });
 
 });

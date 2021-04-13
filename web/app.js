@@ -17,12 +17,13 @@ if (isCrossOriginFrame()) {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 var app = function () {
 
     var ROUTE = '/dao';
 
     var parse = function (hash) {
-        var regex = /\/app(?:\/([^\/]+))?(?:\/us)?(?:\/([^\/]+))?(?:\/run)?(?:\/([^\/]+))?(?:\/step)?/gi;
+        var regex = /\/app(?:\/([^/]+))?(?:\/us)?(?:\/([^/]+))?(?:\/run)?(?:\/([^/]+))?(?:\/step)?/gi;
         var m = regex.exec(hash);
 
         return {
@@ -248,8 +249,8 @@ var app = function () {
                         uri: ['/runs#/app/', {
                             field: 'appId'
                         }, '/us/', {
-                                field: '_id'
-                            }]
+                            field: '_id'
+                        }]
                     }
                 },
                 {
@@ -415,8 +416,8 @@ var app = function () {
                     uri: ['/runs#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                            field: '_id'
-                        }]
+                        field: '_id'
+                    }]
                 }
             }, {
                 name: 'UpdatedBy',
@@ -460,8 +461,8 @@ var app = function () {
                     uri: ['/runs#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                            field: '_id'
-                        }]
+                        field: '_id'
+                    }]
                 }
             },
             {
@@ -555,10 +556,10 @@ var app = function () {
                     uri: ['/steps#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                            field: 'usId'
-                        }, '/run/', {
-                            field: '_id'
-                        }]
+                        field: 'usId'
+                    }, '/run/', {
+                        field: '_id'
+                    }]
                 }
             }, {
                 name: 'ID',
@@ -635,10 +636,10 @@ var app = function () {
                     uri: ['/deployment#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                            field: 'usId'
-                        }, '/run/', {
-                            field: '_id'
-                        }]
+                        field: 'usId'
+                    }, '/run/', {
+                        field: '_id'
+                    }]
                 }
             }, {
                 name: 'ID',
@@ -697,10 +698,10 @@ var app = function () {
                     uri: ['/deployment#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                            field: 'usId'
-                        }, '/run/', {
-                            field: '_id'
-                        }]
+                        field: 'usId'
+                    }, '/run/', {
+                        field: '_id'
+                    }]
                 }
             }, {
                 name: 'ID',
@@ -751,8 +752,8 @@ var app = function () {
                     uri: ['/runs#/app/', {
                         field: 'appId'
                     }, '/us/', {
-                            field: '_id'
-                        }]
+                        field: '_id'
+                    }]
                 }
             },
             {
