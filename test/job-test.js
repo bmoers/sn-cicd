@@ -8,15 +8,20 @@ const CICD = require('../lib/cicd');
 const EventBusJob = require('../lib/eb/job');
 const EbQueueJob = require('../lib/eb/queue-job');
 
-CICD.prototype.jobs = async function(){
-    
+CICD.prototype.jobs = async function () {
 
-    const list = [1,2,3,4,5,6,7,8,9].map(e => {
-        return new EventBusJob({ name: 'dummy', background: false }, { body: 'body ' + e });
+
+    const list = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(e => {
+        return new EbQueueJob({ name: 'dummy', description: 'number: ' + e, background: true, exclusiveId: 1 }, { body: 'body ' + e });
+    });
+
+    
+    const list2 = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(e => {
+        return new EbQueueJob({ name: 'dummy', description: 'exclusive 2: ' + e, background: true, exclusiveId: 2 }, { body: 'body ' + e });
     });
 
     console.log('------------------------ wait for all');
-    const res = await Promise.all(list);
+    const res = await Promise.all(list.concat(list2));
 
     console.log('------------------------ done');
     console.log(res.map(r => r.result));
@@ -29,17 +34,43 @@ CICD.prototype.jobs = async function(){
     */
 };
 
-(async ()  =>{
+CICD.prototype.job = async function () {
 
-    const c = new CICD();
-    c.start();
-    await Promise.delay(1000);
 
-    c.worker();
+
+    const result = await new EbQueueJob({ name: 'dummy', background: false, description: 'dummy job' }, { body: 'body ' });
+
+    // console.log('------------------------ done');
+    // console.log(result);
+
+    /*
+    // this job is executed via 'exe' and pushed to the workers
+    const result = await new EventBusJob({ name: 'dummy', background: false }, { body: 'body' });
+    */
+    console.log('result----------------------------------------->', result);
+    return result;
+};
+
+(async () => {
+
+    try {
+        const c = new CICD();
+        c.self.init(c.self.WORKER);
+
+        console.log('test jobs');
+        await c.self.jobs();
+        /*
+         const job = await c.self.job();
+         console.log(job);
     
-    await Promise.delay(1000);
-    console.log('test jobs');
-    await c.self.jobs();
+        await Promise.delay(5 * 1000);
+
+        const jobDetails = await c.self.db.job_queue.find({ _id: job._id });
+        console.log(jobDetails);
+        */
+    } catch (e) {
+        console.error('job failed', e);
+    }
 })();
 
 
