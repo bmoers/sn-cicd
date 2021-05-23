@@ -482,7 +482,7 @@ var app = function () {
         }).done(function (data) {
             data = data || {};
             if (data.state == 'completed')
-                data.duration = (data.end - data.start) / 1000;
+                data.duration = (new Date(data.end).getTime() - new Date(data.start).getTime()) / 1000;
 
             data.start = (data.start == -1) ? '' : new Date(data.start).toLocaleString();
             data.end = (data.end == -1) ? '' : new Date(data.end).toLocaleString();
@@ -620,7 +620,7 @@ var app = function () {
 
             data = data.map(function (d) {
                 if (d.state == 'completed')
-                    d.duration = (d.end - d.start) / 1000;
+                    d.duration = (new Date(d.end).getTime() - new Date(d.start).getTime()) / 1000;
 
                 d.start = (d.start == -1) ? '' : new Date(d.start).toLocaleString();
                 d.end = (d.end == -1) ? '' : new Date(d.end).toLocaleString();
