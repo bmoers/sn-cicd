@@ -13,8 +13,8 @@ const EbQueueJob = require('../lib/eb/queue-job');
 
     const c = new CICD();
     c.start();
-    c.worker();
-    c.worker();
+    //c.worker();
+    //c.worker();
 
 })();
 

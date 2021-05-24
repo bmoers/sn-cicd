@@ -15,7 +15,7 @@ CICD.prototype.jobs = async function () {
         return new EbQueueJob({ name: 'dummy', description: 'number: ' + e, background: true, exclusiveId: 1 }, { body: 'body ' + e });
     });
 
-    
+
     const list2 = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(e => {
         return new EbQueueJob({ name: 'dummy', description: 'exclusive 2: ' + e, background: true, exclusiveId: 2 }, { body: 'body ' + e });
     });
@@ -38,7 +38,7 @@ CICD.prototype.job = async function () {
 
 
 
-    const result = await new EbQueueJob({ name: 'dummy', background: false, description: 'dummy job' }, { body: 'body ' });
+    const result = await new EventBusJob({ name: 'dummy', background: true, description: 'dummy job', exclusiveId: 2 }, { body: 'body ' });
 
     // console.log('------------------------ done');
     // console.log(result);
@@ -58,7 +58,8 @@ CICD.prototype.job = async function () {
         c.self.init(c.self.WORKER);
 
         console.log('test jobs');
-        await c.self.jobs();
+        c.self.job();
+        await c.self.job();
         /*
          const job = await c.self.job();
          console.log(job);

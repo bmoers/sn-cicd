@@ -16,6 +16,7 @@
   "author": "Boris Moers",
   "license": "LGPL-3.0",
   "dependencies": {
+    "async-mutex": "^0.3.1",
     "bluebird": "^3.7.2",
     "camelcase": "^6.2.0",
     "chalk": "^1.1.3",
