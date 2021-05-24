@@ -5,19 +5,19 @@ process.env.CICD_EB_WORKER_CLUSTER_NUM = 0;
 const Promise = require('bluebird');
 
 const CICD = require('../lib/cicd');
-const EventBusJob = require('../lib/eb/job');
-const EbQueueJob = require('../lib/eb/queue-job');
+const ExeJob = require('../lib/eb/job');
+const QueueJob = require('../lib/eb/queue-job');
 
 CICD.prototype.jobs = async function () {
 
 
     const list = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(e => {
-        return new EbQueueJob({ name: 'dummy', description: 'number: ' + e, background: true, exclusiveId: 1 }, { body: 'body ' + e });
+        return new QueueJob({ name: 'dummy', description: 'number: ' + e, background: true, exclusiveId: 1 }, { body: 'body ' + e });
     });
 
 
     const list2 = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(e => {
-        return new EbQueueJob({ name: 'dummy', description: 'exclusive 2: ' + e, background: true, exclusiveId: 2 }, { body: 'body ' + e });
+        return new QueueJob({ name: 'dummy', description: 'exclusive 2: ' + e, background: true, exclusiveId: 2 }, { body: 'body ' + e });
     });
 
     console.log('------------------------ wait for all');
@@ -29,7 +29,7 @@ CICD.prototype.jobs = async function () {
 
     /*
     // this job is executed via 'exe' and pushed to the workers
-    const result = await new EventBusJob({ name: 'dummy', background: false }, { body: 'body' });
+    const result = await new ExeJob({ name: 'dummy', background: false }, { body: 'body' });
     console.log('result----------------------------------------->', result);
     */
 };
@@ -38,14 +38,14 @@ CICD.prototype.job = async function () {
 
 
 
-    const result = await new EventBusJob({ name: 'dummy', background: true, description: 'dummy job', exclusiveId: 2 }, { body: 'body ' });
+    const result = await new ExeJob({ name: 'dummy', background: true, description: 'dummy job', exclusiveId: 2 }, { body: 'body ' });
 
     // console.log('------------------------ done');
     // console.log(result);
 
     /*
     // this job is executed via 'exe' and pushed to the workers
-    const result = await new EventBusJob({ name: 'dummy', background: false }, { body: 'body' });
+    const result = await new ExeJob({ name: 'dummy', background: false }, { body: 'body' });
     */
     console.log('result----------------------------------------->', result);
     return result;
