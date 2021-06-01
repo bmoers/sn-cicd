@@ -996,7 +996,7 @@ var app = function () {
                 name: 'Host',
                 field: 'host'
             }, {
-                name: 'Worker',
+                name: 'Worker ID',
                 field: 'workerId'
             }, {
                 name: 'Created',
@@ -1041,7 +1041,7 @@ var app = function () {
                 name: 'Host',
                 field: 'host'
             }, {
-                name: 'Worker',
+                name: 'Worker ID',
                 field: 'workerId'
             }, {
                 name: 'Created',
@@ -1067,14 +1067,17 @@ var app = function () {
                 name: 'Server',
                 field: 'serverHash'
             },{
-                name: 'Worker',
+                name: 'Worker ID',
                 field: '_id'
             }, {
                 name: 'Worker Host',
                 field: 'host'
             }, {
-                name: 'Worker Status',
+                name: 'Status',
                 field: 'status'
+            }, {
+                name: 'Disconnected',
+                field: 'disconnected'
             }, {
                 name: '# Job',
                 field: 'assignedJobs'
