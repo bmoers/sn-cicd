@@ -11,7 +11,7 @@ if (isCrossOriginFrame()) {
     console.log('remove iframe');
     try {
         window.top.location.href = self.location.href;
-    } catch (e ){
+    } catch (e) {
         // eslint-disable-next-line no-console
         console.error(e);
     }
@@ -486,6 +486,7 @@ var app = function () {
 
             data.start = (data.start == -1) ? '' : new Date(data.start).toLocaleString();
             data.end = (data.end == -1) ? '' : new Date(data.end).toLocaleString();
+
             var config = [
                 [{
                     name: 'State',
@@ -524,7 +525,66 @@ var app = function () {
                 }]
             ];
             renderDetails($('#deployment'), config, data);
+            
+            
+            var missingRecords = Object.values(data.missingRecords || {});
+            if(missingRecords.length){
+                
+                var listingConfig = [{
+                    name: 'Class Name',
+                    field: 'className'
+                }, {
+                    name: 'Sys Id',
+                    field: 'sysId'
+                }, {
+                    name: 'Status',
+                    field: 'status'
+                }, {
+                    name: 'Host',
+                    field: 'host'
+                }, {
+                    name: 'Resolved by',
+                    field: 'resolvedBy'
+                }, {
+                    name: 'Link',
+                    text: 'open',
+                    link: {
+                        uri: [{
+                            field: 'link'
+                        }],
+                        target: '_blank'
+                    }
+                }, {
+                    name: 'Description',
+                    field: 'description'
+    
+                }];
+    
+                renderList($('#deployment-missing-records'), listingConfig, missingRecords);
+            }
 
+            var issues = Object.values(data.issues || {});
+            if(issues.length){
+                
+                var issuesConfig = [{
+                    name: 'Type',
+                    field: 'type'
+                }, {
+                    name: 'Description',
+                    field: 'name'
+                }, {
+                    name: 'Link',
+                    text: 'open',
+                    link: {
+                        uri: [{
+                            field: 'link'
+                        }],
+                        target: '_blank'
+                    }
+                }];
+                renderList($('#deployment-issues'), issuesConfig, issues);
+            }
+            
         });
     };
 
@@ -632,7 +692,7 @@ var app = function () {
             var config = [{
                 name: 'Start',
                 field: 'start',
-                __link: {
+                link: {
                     uri: ['/deployment#/app/', {
                         field: 'appId'
                     }, '/us/', {
@@ -915,11 +975,29 @@ var app = function () {
         }).done(function (data) {
 
             var config = [{
+                name: 'Server',
+                field: 'serverHash'
+            }, {
                 name: 'Name',
                 field: 'name'
             }, {
                 name: 'Description',
                 field: 'description'
+            }, {
+                name: 'Background',
+                field: 'background'
+            }, {
+                name: 'Exclusive',
+                field: 'exclusiveId'
+            }, {
+                name: 'State',
+                field: 'status'
+            }, {
+                name: 'Host',
+                field: 'host'
+            }, {
+                name: 'Worker ID',
+                field: 'workerId'
             }, {
                 name: 'Created',
                 field: 'created',
@@ -929,11 +1007,8 @@ var app = function () {
                 field: 'completed',
                 type: 'ts'
             }, {
-                name: 'State',
-                field: 'status'
-            }, {
-                name: 'Result',
-                field: 'result'
+                name: 'Error',
+                field: 'error'
             }];
             renderList($('#job-queue'), config, data);
 
@@ -945,8 +1020,29 @@ var app = function () {
         }).done(function (data) {
 
             var config = [{
+                name: 'Server',
+                field: 'serverHash'
+            }, {
                 name: 'Name',
                 field: 'name'
+            }, {
+                name: 'Description',
+                field: 'description'
+            }, {
+                name: 'Background',
+                field: 'background'
+            }, {
+                name: 'Exclusive',
+                field: 'exclusiveId'
+            }, {
+                name: 'State',
+                field: 'status'
+            }, {
+                name: 'Host',
+                field: 'host'
+            }, {
+                name: 'Worker ID',
+                field: 'workerId'
             }, {
                 name: 'Created',
                 field: 'created',
@@ -955,20 +1051,9 @@ var app = function () {
                 name: 'Completed',
                 field: 'completed',
                 type: 'ts'
-            },
-
-            {
-                name: 'Host',
-                field: 'host'
-            },
-
-            {
-                name: 'State',
-                field: 'status'
-            },
-            {
-                name: 'Client',
-                field: 'runByClient'
+            }, {
+                name: 'Error',
+                field: 'error'
             }];
             renderList($('#process-queue'), config, data);
         });
@@ -979,21 +1064,33 @@ var app = function () {
         }).done(function (data) {
 
             var config = [{
-                name: 'Host',
+                name: 'Server',
+                field: 'serverHash'
+            },{
+                name: 'Worker ID',
+                field: '_id'
+            }, {
+                name: 'Worker Host',
                 field: 'host'
             }, {
-                name: 'Job Worker',
+                name: 'Status',
                 field: 'status'
+            }, {
+                name: 'Disconnected',
+                field: 'disconnected'
             }, {
                 name: '# Job',
                 field: 'assignedJobs'
             }, {
                 name: '# Process',
                 field: 'assignedExecutions'
-            },
-            {
+            }, {
                 name: 'Stats',
                 field: 'statistics.num'
+            }, {
+                name: 'Updated',
+                field: 'updatedAt',
+                type: 'ts'
             }];
             renderList($('#worker-nodes'), config, data);
 
