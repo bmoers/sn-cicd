@@ -15,6 +15,10 @@
         {
             "source": "package.lock.json",
             "target": "package-lock.json"
+        },
+        {
+            "source": "gulp-jsdoc3.js",
+            "target": "gulp-jsdoc3.js"
         }
     ],
     "gulp": {
@@ -142,6 +146,10 @@
                     "outputSourcePath": true,
                     "syntaxTheme": "default",
                     "dateFormat": "MMMM Do YYYY, h:mm:ss a"
+                },
+                "log" :{
+                    "info": false,
+                    "error": false
                 }
             }
         },
