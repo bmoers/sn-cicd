@@ -142,6 +142,10 @@
                     "outputSourcePath": true,
                     "syntaxTheme": "default",
                     "dateFormat": "MMMM Do YYYY, h:mm:ss a"
+                },
+                "log" :{
+                    "info": false,
+                    "error": false
                 }
             }
         },
