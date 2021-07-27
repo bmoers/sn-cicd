@@ -144,8 +144,8 @@
                     "dateFormat": "MMMM Do YYYY, h:mm:ss a"
                 },
                 "log" :{
-                    "info": true,
-                    "error": true
+                    "info": false,
+                    "error": false
                 }
             }
         },
