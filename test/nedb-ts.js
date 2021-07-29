@@ -14,7 +14,7 @@ const dataStore = {
     test: null
 };
 
-const Datastore = require('nedb');
+const Datastore = require('@moers/nedb');
 Object.keys(dataStore).forEach((collection) => {
     console.log(path.join('db', `${collection}.db`));
     const coll = new Datastore({
