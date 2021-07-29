@@ -48,7 +48,7 @@ describe(jobName, function() {
                 run: null
             };
 
-            const Datastore = require('nedb');
+            const Datastore = require('@moers/nedb');
             const path = require('path');
 
             Object.keys(db).forEach((collection) => {
