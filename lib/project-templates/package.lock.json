@@ -34,7 +34,7 @@
 				"request": "^2.88.0",
 				"request-promise": "^4.2.2",
 				"semver": "^7.3.4",
-				"sn-project": "^3.17.0",
+				"sn-project": "^3.17.1",
 				"tmp": "^0.2.1",
 				"uuid": "^8.3.2"
 			}
@@ -7913,9 +7913,10 @@
 			}
 		},
 		"node_modules/sn-project": {
-			"version": "3.17.0",
-			"resolved": "https://registry.npmjs.org/sn-project/-/sn-project-3.17.0.tgz",
-			"integrity": "sha512-h94Bo1nBHkAXHIZi96qDPvBo+DX9OeFKrAoVudHhzaIogtRSiU7IoDXbRzrDaLVkG3ucuanTUmudWje+o4VMIw==",
+			"version": "3.17.1",
+			"resolved": "https://registry.npmjs.org/sn-project/-/sn-project-3.17.1.tgz",
+			"integrity": "sha512-ptn8dBg6sNGwV3hq6bZWoFUh0r6QyLcuQoo9F7778rd1uoixHJU2p/z+1KLgdpdyF0RHRzyyJX9EgtRJgrqfOQ==",
+			"license": "LGPL-3.0",
 			"dependencies": {
 				"@moers/nedb": "^1.9.1",
 				"any-shell-escape": "^0.1.1",
@@ -15416,9 +15417,9 @@
 			}
 		},
 		"sn-project": {
-			"version": "3.17.0",
-			"resolved": "https://registry.npmjs.org/sn-project/-/sn-project-3.17.0.tgz",
-			"integrity": "sha512-h94Bo1nBHkAXHIZi96qDPvBo+DX9OeFKrAoVudHhzaIogtRSiU7IoDXbRzrDaLVkG3ucuanTUmudWje+o4VMIw==",
+			"version": "3.17.1",
+			"resolved": "https://registry.npmjs.org/sn-project/-/sn-project-3.17.1.tgz",
+			"integrity": "sha512-ptn8dBg6sNGwV3hq6bZWoFUh0r6QyLcuQoo9F7778rd1uoixHJU2p/z+1KLgdpdyF0RHRzyyJX9EgtRJgrqfOQ==",
 			"requires": {
 				"@moers/nedb": "^1.9.1",
 				"any-shell-escape": "^0.1.1",
