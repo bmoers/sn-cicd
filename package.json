@@ -43,7 +43,7 @@
     "puppeteer": "1.17.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "sn-project": "^3.17.3",
+    "sn-project": "^3.18.0",
     "sn-rest-client": "^2.1.12",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",
