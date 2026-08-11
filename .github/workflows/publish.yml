@@ -5,17 +5,24 @@ on:
     tags:
       - '*'
 
+# OIDC token for npm trusted publishing - replaces the NPM_TOKEN secret
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
+    - uses: actions/checkout@v6
+    - uses: actions/setup-node@v6
       with:
-        node-version: '12.x'
+        # >= 22.14.0 is required by trusted publishing, 24 breaks @moers/nedb (util.isDate removed)
+        node-version: '22'
         registry-url: 'https://registry.npmjs.org'
-    - run: npm install --ignore-scripts --no-fund --no-audit
+        package-manager-cache: false
+    # bundled npm on node 22 is 10.x, trusted publishing needs >= 11.5.1
+    - run: npm install -g npm@latest
+    - run: npm ci --ignore-scripts --no-fund --no-audit
     - run: node load-test.js
     - run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
